@@ -9,7 +9,7 @@ A powerful Dart package for simulating keyboard and mouse input, designed to enh
 - Enter text programmatically
 - Simulate key presses and releases
 - Support for multiple key modifiers
-- Cross-platform compatibility (Flutter)
+- Desktop compatibility
 
 ## Installation
 
