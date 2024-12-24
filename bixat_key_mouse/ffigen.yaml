@@ -1,0 +1,19 @@
+# Run with `dart run ffigen --config ffigen.yaml`.
+name: BixatKeyMouseBindings
+description: |
+  Bindings for `src/bixat_key_mouse.h`.
+
+  Regenerate bindings with `dart run ffigen --config ffigen.yaml`.
+output: 'lib/bixat_key_mouse_bindings_generated.dart'
+headers:
+  entry-points:
+    - 'src/bixat_key_mouse.h'
+  include-directives:
+    - 'src/bixat_key_mouse.h'
+preamble: |
+  // ignore_for_file: always_specify_types
+  // ignore_for_file: camel_case_types
+  // ignore_for_file: non_constant_identifier_names
+comments:
+  style: any
+  length: full
