@@ -1,92 +1,176 @@
-# bixat_key_mouse
+# Bixat Key Mouse
 
-A new Flutter FFI plugin project.
+A powerful Dart package for simulating keyboard and mouse input, designed to enhance automation and testing capabilities in Flutter applications.
+
+## Features
+
+- Move mouse to absolute and relative positions
+- Press and release mouse buttons
+- Enter text programmatically
+- Simulate key presses and releases
+- Support for multiple key modifiers
+- Cross-platform compatibility (Flutter)
+
+## Installation
+
+To use Bixat Key Mouse in your Flutter project, add it to your `pubspec.yaml` file:
+
+```yaml
+dependencies:
+  bixat_key_mouse: ^<latest_version>
+```
+
+Then run `flutter pub get` to install the package.
 
 ## Getting Started
 
-This project is a starting point for a Flutter
-[FFI plugin](https://flutter.dev/to/ffi-package),
-a specialized package that includes native code directly invoked with Dart FFI.
+To use Bixat Key Mouse in your Dart code, import the package:
 
-## Project structure
-
-This template uses the following structure:
-
-* `src`: Contains the native source code, and a CmakeFile.txt file for building
-  that source code into a dynamic library.
-
-* `lib`: Contains the Dart code that defines the API of the plugin, and which
-  calls into the native code using `dart:ffi`.
-
-* platform folders (`android`, `ios`, `windows`, etc.): Contains the build files
-  for building and bundling the native code library with the platform application.
-
-## Building and bundling native code
-
-The `pubspec.yaml` specifies FFI plugins as follows:
-
-```yaml
-  plugin:
-    platforms:
-      some_platform:
-        ffiPlugin: true
+```dart
+import 'package:bixat_key_mouse/bixat_key_mouse.dart';
 ```
 
-This configuration invokes the native build for the various target platforms
-and bundles the binaries in Flutter applications using these FFI plugins.
+## Basic Usage
 
-This can be combined with dartPluginClass, such as when FFI is used for the
-implementation of one platform in a federated plugin:
+Here's a simple example demonstrating various functionalities:
 
-```yaml
-  plugin:
-    implements: some_other_plugin
-    platforms:
-      some_platform:
-        dartPluginClass: SomeClass
-        ffiPlugin: true
+```dart
+import 'package:bixat_key_mouse/bixat_key_mouse.dart';
+
+void main() {
+  // Move mouse to absolute position
+  BixatKeyMouse.moveMouseAbs(100, 100);
+
+  // Move mouse relative to current position
+  BixatKeyMouse.moveMouseRel(50, 50);
+
+  // Press left mouse button
+  BixatKeyMouse.pressMouseButton(1);
+
+  // Release left mouse button
+  BixatKeyMouse.releaseMouseButton(1);
+
+  // Enter text
+  final text = 'Hello, world!';
+  BixatKeyMouse.enterText(text);
+
+  // Simulate key press
+  final key = KeyModifier.command;
+  BixatKeyMouse.simulateKeyPress(key);
+
+  // Release key
+  final keyRelease = KeyModifier.capsLock;
+  BixatKeyMouse.simulateKeyPress(keyRelease);
+}
 ```
 
-A plugin can have both FFI and method channels:
+## Available Functions
 
-```yaml
-  plugin:
-    platforms:
-      some_platform:
-        pluginClass: SomeName
-        ffiPlugin: true
+### Mouse Control
+
+#### moveMouseAbs(int x, int y)
+Move the mouse cursor to an absolute position on the screen.
+
+```dart
+BixatKeyMouse.moveMouseAbs(100, 100);
 ```
 
-The native build systems that are invoked by FFI (and method channel) plugins are:
+#### moveMouseRel(int dx, int dy)
+Move the mouse cursor relative to its current position.
 
-* For Android: Gradle, which invokes the Android NDK for native builds.
-  * See the documentation in android/build.gradle.
-* For iOS and MacOS: Xcode, via CocoaPods.
-  * See the documentation in ios/bixat_key_mouse.podspec.
-  * See the documentation in macos/bixat_key_mouse.podspec.
-* For Linux and Windows: CMake.
-  * See the documentation in linux/CMakeLists.txt.
-  * See the documentation in windows/CMakeLists.txt.
+```dart
+BixatKeyMouse.moveMouseRel(50, 50);
+```
 
-## Binding to native code
+#### pressMouseButton(int button)
+Press the specified mouse button.
 
-To use the native code, bindings in Dart are needed.
-To avoid writing these by hand, they are generated from the header file
-(`src/bixat_key_mouse.h`) by `package:ffigen`.
-Regenerate the bindings by running `dart run ffigen --config ffigen.yaml`.
+```dart
+BixatKeyMouse.pressMouseButton(1); // Left mouse button
+BixatKeyMouse.pressMouseButton(2); // Middle mouse button
+BixatKeyMouse.pressMouseButton(3); // Right mouse button
+```
 
-## Invoking native code
+#### releaseMouseButton(int button)
+Release the specified mouse button.
 
-Very short-running native functions can be directly invoked from any isolate.
-For example, see `sum` in `lib/bixat_key_mouse.dart`.
+```dart
+BixatKeyMouse.releaseMouseButton(1);
+```
 
-Longer-running functions should be invoked on a helper isolate to avoid
-dropping frames in Flutter applications.
-For example, see `sumAsync` in `lib/bixat_key_mouse.dart`.
+### Text Input
 
-## Flutter help
+#### enterText(String text)
+Enter text programmatically.
 
-For help getting started with Flutter, view our
-[online documentation](https://docs.flutter.dev), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```dart
+final text = 'Hello, world!';
+BixatKeyMouse.enterText(text);
+```
 
+### Keyboard Simulation
+
+#### simulateKeyPress(KeyModifier modifier)
+Simulate key press.
+
+```dart
+final key = KeyModifier.command;
+BixatKeyMouse.simulateKeyPress(key);
+```
+
+#### simulateKeyPress(KeyModifier modifier)
+Simulate key release.
+
+```dart
+final keyRelease = KeyModifier.capsLock;
+BixatKeyMouse.simulateKeyPress(keyRelease);
+```
+
+## Key Modifier Values
+
+The package supports various key modifiers. Here's a list of available values:
+
+```dart
+const KeyModifier {
+  command,
+  shift,
+  control,
+  alt,
+  capsLock,
+  numLock,
+  scrollLock,
+}
+```
+
+## Advanced Usage
+
+### Combining Functions
+
+You can combine mouse movements and key presses for complex interactions:
+
+```dart
+BixatKeyMouse.moveMouseAbs(100, 100);
+BixatKeyMouse.pressMouseButton(1);
+// Perform actions...
+BixatKeyMouse.releaseMouseButton(1);
+```
+
+### Handling Exceptions
+
+The package throws exceptions when certain operations fail. It's recommended to handle these exceptions:
+
+```dart
+try {
+  BixatKeyMouse.moveMouseAbs(100, 100);
+} catch (e) {
+  print('Error moving mouse: $e');
+}
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

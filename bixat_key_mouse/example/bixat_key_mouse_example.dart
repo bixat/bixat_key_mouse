@@ -1,4 +1,5 @@
-import '../lib/bixat_key_mouse.dart';
+
+import 'package:bixat_key_mouse/bixat_key_mouse.dart';
 
 void main() {
   // Move the mouse to an absolute position
