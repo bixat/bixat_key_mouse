@@ -8,6 +8,8 @@ class BixatKeyMouse {
   static void moveMouseRel(int x, int y) =>
       ExternBixatKeyMouse.moveMouseRel(x, y);
 
+  // TODO: Implement mouse wheel support
+  // TODO: Use enums instead of int
   static void pressMouseButton(int button) =>
       ExternBixatKeyMouse.pressMouseButton(button);
 
