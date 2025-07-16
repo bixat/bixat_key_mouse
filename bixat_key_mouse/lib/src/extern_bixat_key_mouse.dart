@@ -1,9 +1,8 @@
 import 'dart:ffi';
-import 'dart:io' show Platform, Directory;
+import 'dart:io' show Platform, Directory, File;
 import 'package:ffi/ffi.dart';
 import 'package:path/path.dart' as path;
 
-const _libname = "bixat_key_mouse/native";
 const _nativeName = "libbixat_key_mouse_rust";
 
 // Define the Dart bindings for the Rust functions
@@ -30,16 +29,32 @@ typedef ReleaseKeyDart = void Function(Pointer<Utf8> key);
 
 class ExternBixatKeyMouse {
   static String getLibraryPath() {
-    var libraryPath =
-        path.join(Directory.current.path, _libname, '$_nativeName.so');
-    if (Platform.isMacOS) {
-      libraryPath =
-          path.join(Directory.current.path, _libname, '$_nativeName.dylib');
-    } else if (Platform.isWindows) {
-      libraryPath = path.join(
-          Directory.current.path, _libname, 'Debug', '$_nativeName.dll');
+    final libraryName = Platform.isWindows
+        ? '$_nativeName.dll'
+        : Platform.isMacOS
+            ? '$_nativeName.dylib'
+            : '$_nativeName.so';
+
+    // First, try to find the library relative to the current script
+    final scriptUri = Platform.script;
+    if (scriptUri.isScheme('file')) {
+      final scriptDir = path.dirname(scriptUri.toFilePath());
+      final candidatePaths = [
+        // If running from example
+        path.join(path.dirname(path.dirname(scriptDir)), 'native', libraryName),
+        // If running from test
+        path.join(path.dirname(scriptDir), 'native', libraryName),
+      ];
+
+      for (final candidatePath in candidatePaths) {
+        if (File(candidatePath).existsSync()) {
+          return candidatePath;
+        }
+      }
     }
-    return libraryPath;
+
+    // If library not found in relative paths, try absolute path
+    return path.join(Directory.current.path, 'native', libraryName);
   }
 
   static final DynamicLibrary _myRustLib =
