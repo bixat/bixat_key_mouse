@@ -1,6 +1,6 @@
 # Bixat Key Mouse
 
-A powerful Dart package for simulating keyboard and mouse input, designed to enhance automation and testing capabilities in Flutter applications.
+Cross-platform (Linux, Windows, macOS & BSD) package to simulate keyboard and mouse events
 
 ## Features
 
@@ -166,6 +166,10 @@ try {
   print('Error moving mouse: $e');
 }
 ```
+
+## Acknowledgements
+
+The Bixat Key Mouse package utilizes the [Enigo](https://crates.io/crates/enigo) crate for simulating keyboard and mouse events across different platforms. Enigo is a Rust library that provides a cross-platform abstraction for controlling keyboards and mice, making it a valuable underlying tool for this package.
 
 ## Contributing
 
