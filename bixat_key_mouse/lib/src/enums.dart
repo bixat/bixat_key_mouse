@@ -48,7 +48,6 @@ enum KeyModifier {
   }
 }
 
-
 enum MouseButton {
   left,
   middle,

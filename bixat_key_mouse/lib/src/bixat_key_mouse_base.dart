@@ -35,4 +35,3 @@ class BixatKeyMouse {
     malloc.free(keyPointer);
   }
 }
-
