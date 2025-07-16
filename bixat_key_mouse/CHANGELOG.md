@@ -5,3 +5,7 @@
 ## 0.0.2
 
 * Fix `Failed to load dynamic library` bug
+
+## 0.0.3
+
+* Add `MouseButton` enum support
