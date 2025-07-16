@@ -1,3 +1,4 @@
+import 'package:bixat_key_mouse/src/enums.dart';
 import 'package:ffi/ffi.dart';
 import 'extern_bixat_key_mouse.dart';
 
@@ -10,11 +11,11 @@ class BixatKeyMouse {
 
   // TODO: Implement mouse wheel support
   // TODO: Use enums instead of int
-  static void pressMouseButton(int button) =>
-      ExternBixatKeyMouse.pressMouseButton(button);
+  static void pressMouseButton(MouseButton button) =>
+      ExternBixatKeyMouse.pressMouseButton(button.index);
 
-  static void releaseMouseButton(int button) =>
-      ExternBixatKeyMouse.releaseMouseButton(button);
+  static void releaseMouseButton(MouseButton button) =>
+      ExternBixatKeyMouse.releaseMouseButton(button.index);
 
   static void enterText(String text) {
     final textPointer = text.toNativeUtf8();
@@ -35,52 +36,3 @@ class BixatKeyMouse {
   }
 }
 
-enum KeyModifier {
-  shift,
-  control,
-  alt,
-  meta,
-  command,
-  windows,
-  superKey,
-  backspace,
-  tab,
-  enter,
-  escape,
-  space,
-  pageUp,
-  pageDown,
-  end,
-  home,
-  leftArrow,
-  upArrow,
-  rightArrow,
-  downArrow,
-  insert,
-  delete,
-  f1,
-  f2,
-  f3,
-  f4,
-  f5,
-  f6,
-  f7,
-  f8,
-  f9,
-  f10,
-  f11,
-  f12,
-  numLock,
-  scrollLock,
-  capsLock,
-  printScreen,
-  pause,
-  clear,
-  menu;
-
-  @override
-  String toString() {
-    final name = super.toString().split('.').last;
-    return name[0].toUpperCase() + name.substring(1);
-  }
-}

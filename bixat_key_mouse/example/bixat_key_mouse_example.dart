@@ -1,18 +1,17 @@
-
 import 'package:bixat_key_mouse/bixat_key_mouse.dart';
 
 void main() {
   // Move the mouse to an absolute position
-  BixatKeyMouse.moveMouseAbs(100, 100);
+  BixatKeyMouse.moveMouseAbs(800, 800);
 
   // Move the mouse to a relative position
   BixatKeyMouse.moveMouseRel(50, 50);
 
   // Press the left mouse button
-  BixatKeyMouse.pressMouseButton(1);
+  BixatKeyMouse.pressMouseButton(MouseButton.right);
 
   // Release the left mouse button
-  BixatKeyMouse.releaseMouseButton(1);
+  BixatKeyMouse.releaseMouseButton(MouseButton.right);
 
   // Enter text
   final text = 'Hello, world!';

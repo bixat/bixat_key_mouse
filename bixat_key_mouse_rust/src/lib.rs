@@ -32,9 +32,17 @@ pub extern "C" fn press_mouse_button(button: i32) {
 #[no_mangle]
 pub extern "C" fn release_mouse_button(button: i32) {
     let mut enigo = Enigo::new(&Settings::default()).unwrap();
+    // TODO: Handle it automatically.
     let button = match button {
         1 => Button::Left,
         2 => Button::Right,
+        3 => Button::Middle,
+        4 => Button::Back,
+        5 => Button::Forward,
+        6 => Button::ScrollUp,
+        7 => Button::ScrollDown,
+        8 => Button::ScrollLeft,
+        9 => Button::ScrollRight,
         _ => Button::Left,
     };
     enigo.button(button, Release);

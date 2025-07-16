@@ -7,5 +7,5 @@ edition = "2021"
 crate-type = ["dylib"]
 
 [dependencies]
-enigo = "0.3.0"
+enigo = "0.5.0"
 libc = "0.2.169"
