@@ -1,6 +1,6 @@
 name: bixat_key_mouse
 description: "This package allows users to control mouse and keyboard on desktop platforms."
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/bixat/bixat_key_mouse_dart/tree/main/bixat_key_mouse
 
 environment:
