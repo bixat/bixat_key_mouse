@@ -1,23 +1,22 @@
-# Bixat Key Mouse
+# 🖱️ Bixat Key Mouse
 
 Cross-platform (Linux, Windows, macOS & BSD) package to simulate keyboard and mouse events
 
 ## Features
 
-- Move mouse to absolute and relative positions
-- Press and release mouse buttons
-- Enter text programmatically
-- Simulate key presses and releases
-- Support for multiple key modifiers
-- Desktop compatibility
+- 🖲️ Move mouse to absolute and relative positions
+- 🖱️ Press and release mouse buttons
+- 🖋️ Enter text programmatically
+- ⌨️ Simulate key presses and releases
+- 🗝️ Support for multiple key modifiers
+- 🖥️ Desktop compatibility
 
 ## Installation
 
 To use Bixat Key Mouse in your Flutter project, add it to your `pubspec.yaml` file:
 
-```yaml
-dependencies:
-  bixat_key_mouse: ^<latest_version>
+```shell
+flutter pub add bixat_key_mouse
 ```
 
 Then run `flutter pub get` to install the package.
@@ -38,27 +37,27 @@ Here's a simple example demonstrating various functionalities:
 import 'package:bixat_key_mouse/bixat_key_mouse.dart';
 
 void main() {
-  // Move mouse to absolute position
+  // Move mouse to absolute position 🖱️
   BixatKeyMouse.moveMouseAbs(100, 100);
 
-  // Move mouse relative to current position
+  // Move mouse relative to current position ➡️
   BixatKeyMouse.moveMouseRel(50, 50);
 
-  // Press left mouse button
+  // Press left mouse button 🖱️
   BixatKeyMouse.pressMouseButton(1);
 
-  // Release left mouse button
+  // Release left mouse button 🖱️
   BixatKeyMouse.releaseMouseButton(1);
 
-  // Enter text
+  // Enter text 🖋️
   final text = 'Hello, world!';
   BixatKeyMouse.enterText(text);
 
-  // Simulate key press
+  // Simulate key press ⌨️
   final key = KeyModifier.command;
   BixatKeyMouse.simulateKeyPress(key);
 
-  // Release key
+  // Release key ⌨️
   final keyRelease = KeyModifier.capsLock;
   BixatKeyMouse.simulateKeyPress(keyRelease);
 }
@@ -69,21 +68,21 @@ void main() {
 ### Mouse Control
 
 #### moveMouseAbs(int x, int y)
-Move the mouse cursor to an absolute position on the screen.
+Move the mouse cursor to an absolute position on the screen. 📍
 
 ```dart
 BixatKeyMouse.moveMouseAbs(100, 100);
 ```
 
 #### moveMouseRel(int dx, int dy)
-Move the mouse cursor relative to its current position.
+Move the mouse cursor relative to its current position. ➡️
 
 ```dart
 BixatKeyMouse.moveMouseRel(50, 50);
 ```
 
 #### pressMouseButton(int button)
-Press the specified mouse button.
+Press the specified mouse button. 🖱️
 
 ```dart
 BixatKeyMouse.pressMouseButton(1); // Left mouse button
@@ -92,7 +91,7 @@ BixatKeyMouse.pressMouseButton(3); // Right mouse button
 ```
 
 #### releaseMouseButton(int button)
-Release the specified mouse button.
+Release the specified mouse button. 🖱️
 
 ```dart
 BixatKeyMouse.releaseMouseButton(1);
@@ -101,7 +100,7 @@ BixatKeyMouse.releaseMouseButton(1);
 ### Text Input
 
 #### enterText(String text)
-Enter text programmatically.
+Enter text programmatically. 📜
 
 ```dart
 final text = 'Hello, world!';
@@ -111,7 +110,7 @@ BixatKeyMouse.enterText(text);
 ### Keyboard Simulation
 
 #### simulateKeyPress(KeyModifier modifier)
-Simulate key press.
+Simulate key press. ⌨️
 
 ```dart
 final key = KeyModifier.command;
@@ -119,7 +118,7 @@ BixatKeyMouse.simulateKeyPress(key);
 ```
 
 #### simulateKeyPress(KeyModifier modifier)
-Simulate key release.
+Simulate key release. ⌨️
 
 ```dart
 final keyRelease = KeyModifier.capsLock;
@@ -128,7 +127,7 @@ BixatKeyMouse.simulateKeyPress(keyRelease);
 
 ## Key Modifier Values
 
-The package supports various key modifiers. Here's a list of available values:
+The package supports various key modifiers. Here's a list of available values: 🔑
 
 ```dart
 const KeyModifier {
@@ -146,7 +145,7 @@ const KeyModifier {
 
 ### Combining Functions
 
-You can combine mouse movements and key presses for complex interactions:
+You can combine mouse movements and key presses for complex interactions: 🔄
 
 ```dart
 BixatKeyMouse.moveMouseAbs(100, 100);
@@ -157,7 +156,7 @@ BixatKeyMouse.releaseMouseButton(1);
 
 ### Handling Exceptions
 
-The package throws exceptions when certain operations fail. It's recommended to handle these exceptions:
+The package throws exceptions when certain operations fail. It's recommended to handle these exceptions: ⚠️
 
 ```dart
 try {
@@ -169,12 +168,12 @@ try {
 
 ## Acknowledgements
 
-The Bixat Key Mouse package utilizes the [Enigo](https://crates.io/crates/enigo) crate for simulating keyboard and mouse events across different platforms. Enigo is a Rust library that provides a cross-platform abstraction for controlling keyboards and mice, making it a valuable underlying tool for this package.
+The Bixat Key Mouse package utilizes the [Enigo](https://crates.io/crates/enigo) crate for simulating keyboard and mouse events across different platforms. Enigo is a Rust library that provides a cross-platform abstraction for controlling keyboards and mice, making it a valuable underlying tool for this package. 🎉
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Please feel free to submit a Pull Request. 🤝
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. 📜
