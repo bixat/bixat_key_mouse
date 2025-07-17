@@ -1,0 +1,22 @@
+PODS:
+  - bixat_key_mouse (0.0.1):
+    - FlutterMacOS
+  - FlutterMacOS (1.0.0)
+
+DEPENDENCIES:
+  - bixat_key_mouse (from `Flutter/ephemeral/.symlinks/plugins/bixat_key_mouse/macos`)
+  - FlutterMacOS (from `Flutter/ephemeral`)
+
+EXTERNAL SOURCES:
+  bixat_key_mouse:
+    :path: Flutter/ephemeral/.symlinks/plugins/bixat_key_mouse/macos
+  FlutterMacOS:
+    :path: Flutter/ephemeral
+
+SPEC CHECKSUMS:
+  bixat_key_mouse: 8e51ba5dd9d84200fd1ea5de75ad71df868d1b8f
+  FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
+
+PODFILE CHECKSUM: 7eb978b976557c8c1cd717d8185ec483fd090a82
+
+COCOAPODS: 1.16.2

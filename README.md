@@ -170,6 +170,8 @@ try {
 
 The Bixat Key Mouse package utilizes the [Enigo](https://crates.io/crates/enigo) crate for simulating keyboard and mouse events across different platforms. Enigo is a Rust library that provides a cross-platform abstraction for controlling keyboards and mice, making it a valuable underlying tool for this package. 🎉
 
+In addition, the [Flutter Rust Bridge](https://github.com/fzyzcjy/flutter_rust_bridge) tool is used to facilitate seamless communication between Flutter and Rust, allowing efficient and safe function calls across language boundaries. This integration leverages Rust's performance and safety with Flutter's flexibility, further enhancing the package's capabilities. 🌉
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request. 🤝
