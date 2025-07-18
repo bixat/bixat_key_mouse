@@ -1,7 +1,7 @@
 name: bixat_key_mouse
 description: "This package allows users to control mouse and keyboard on desktop platforms."
 version: 1.0.0
-homepage: https://bixat.com
+homepage: https://bixat.dev
 repository: https://github.com/bixat/bixat_key_mouse
 issue_tracker: https://github.com/bixat/bixat_key_mouse/issues
 environment:
