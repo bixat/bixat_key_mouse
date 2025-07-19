@@ -66,7 +66,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => -110583766;
+  int get rustContentHash => -2000922009;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -81,17 +81,27 @@ abstract class RustLibApi extends BaseApi {
 
   Future<void> crateApiBixatKeyMouseInitApp();
 
-  void crateApiBixatKeyMouseMoveMouseAbsBase({required int x, required int y});
+  void crateApiBixatKeyMouseMoveMouseBase({
+    required int x,
+    required int y,
+    required int coordinate,
+  });
 
-  void crateApiBixatKeyMouseMoveMouseRelBase({required int x, required int y});
+  void crateApiBixatKeyMousePressMouseButtonBase({
+    required int button,
+    required int direction,
+  });
 
-  void crateApiBixatKeyMousePressMouseButtonBase({required int button});
+  void crateApiBixatKeyMouseScrollMouseBase({
+    required int distance,
+    required int axis,
+  });
 
-  void crateApiBixatKeyMouseReleaseKeyBase({required String key});
-
-  void crateApiBixatKeyMouseReleaseMouseButtonBase({required int button});
-
-  void crateApiBixatKeyMouseSimulateKeyBase({required String key});
+  void crateApiBixatKeyMouseSimulateKeyBase({
+    required int key,
+    required int direction,
+    String? unicode,
+  });
 }
 
 class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
@@ -153,74 +163,56 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(debugName: "init_app", argNames: []);
 
   @override
-  void crateApiBixatKeyMouseMoveMouseAbsBase({required int x, required int y}) {
+  void crateApiBixatKeyMouseMoveMouseBase({
+    required int x,
+    required int y,
+    required int coordinate,
+  }) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_i_32(x, serializer);
           sse_encode_i_32(y, serializer);
+          sse_encode_i_32(coordinate, serializer);
           return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 3)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_unit,
           decodeErrorData: null,
         ),
-        constMeta: kCrateApiBixatKeyMouseMoveMouseAbsBaseConstMeta,
-        argValues: [x, y],
+        constMeta: kCrateApiBixatKeyMouseMoveMouseBaseConstMeta,
+        argValues: [x, y, coordinate],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateApiBixatKeyMouseMoveMouseAbsBaseConstMeta =>
+  TaskConstMeta get kCrateApiBixatKeyMouseMoveMouseBaseConstMeta =>
       const TaskConstMeta(
-        debugName: "move_mouse_abs_base",
-        argNames: ["x", "y"],
+        debugName: "move_mouse_base",
+        argNames: ["x", "y", "coordinate"],
       );
 
   @override
-  void crateApiBixatKeyMouseMoveMouseRelBase({required int x, required int y}) {
+  void crateApiBixatKeyMousePressMouseButtonBase({
+    required int button,
+    required int direction,
+  }) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_i_32(x, serializer);
-          sse_encode_i_32(y, serializer);
+          sse_encode_i_32(button, serializer);
+          sse_encode_i_32(direction, serializer);
           return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 4)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_unit,
           decodeErrorData: null,
         ),
-        constMeta: kCrateApiBixatKeyMouseMoveMouseRelBaseConstMeta,
-        argValues: [x, y],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiBixatKeyMouseMoveMouseRelBaseConstMeta =>
-      const TaskConstMeta(
-        debugName: "move_mouse_rel_base",
-        argNames: ["x", "y"],
-      );
-
-  @override
-  void crateApiBixatKeyMousePressMouseButtonBase({required int button}) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_i_32(button, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 5)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_unit,
-          decodeErrorData: null,
-        ),
         constMeta: kCrateApiBixatKeyMousePressMouseButtonBaseConstMeta,
-        argValues: [button],
+        argValues: [button, direction],
         apiImpl: this,
       ),
     );
@@ -229,80 +221,76 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   TaskConstMeta get kCrateApiBixatKeyMousePressMouseButtonBaseConstMeta =>
       const TaskConstMeta(
         debugName: "press_mouse_button_base",
-        argNames: ["button"],
+        argNames: ["button", "direction"],
       );
 
   @override
-  void crateApiBixatKeyMouseReleaseKeyBase({required String key}) {
+  void crateApiBixatKeyMouseScrollMouseBase({
+    required int distance,
+    required int axis,
+  }) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_String(key, serializer);
+          sse_encode_i_32(distance, serializer);
+          sse_encode_i_32(axis, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 5)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiBixatKeyMouseScrollMouseBaseConstMeta,
+        argValues: [distance, axis],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiBixatKeyMouseScrollMouseBaseConstMeta =>
+      const TaskConstMeta(
+        debugName: "scroll_mouse_base",
+        argNames: ["distance", "axis"],
+      );
+
+  @override
+  void crateApiBixatKeyMouseSimulateKeyBase({
+    required int key,
+    required int direction,
+    String? unicode,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_i_32(key, serializer);
+          sse_encode_i_32(direction, serializer);
+          sse_encode_opt_Char(unicode, serializer);
           return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_unit,
           decodeErrorData: null,
         ),
-        constMeta: kCrateApiBixatKeyMouseReleaseKeyBaseConstMeta,
-        argValues: [key],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiBixatKeyMouseReleaseKeyBaseConstMeta =>
-      const TaskConstMeta(debugName: "release_key_base", argNames: ["key"]);
-
-  @override
-  void crateApiBixatKeyMouseReleaseMouseButtonBase({required int button}) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_i_32(button, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 7)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_unit,
-          decodeErrorData: null,
-        ),
-        constMeta: kCrateApiBixatKeyMouseReleaseMouseButtonBaseConstMeta,
-        argValues: [button],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiBixatKeyMouseReleaseMouseButtonBaseConstMeta =>
-      const TaskConstMeta(
-        debugName: "release_mouse_button_base",
-        argNames: ["button"],
-      );
-
-  @override
-  void crateApiBixatKeyMouseSimulateKeyBase({required String key}) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_String(key, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 8)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_unit,
-          decodeErrorData: null,
-        ),
         constMeta: kCrateApiBixatKeyMouseSimulateKeyBaseConstMeta,
-        argValues: [key],
+        argValues: [key, direction, unicode],
         apiImpl: this,
       ),
     );
   }
 
   TaskConstMeta get kCrateApiBixatKeyMouseSimulateKeyBaseConstMeta =>
-      const TaskConstMeta(debugName: "simulate_key_base", argNames: ["key"]);
+      const TaskConstMeta(
+        debugName: "simulate_key_base",
+        argNames: ["key", "direction", "unicode"],
+      );
+
+  @protected
+  String dco_decode_Char(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return String.fromCharCode(raw);
+  }
 
   @protected
   String dco_decode_String(dynamic raw) {
@@ -323,6 +311,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  String? dco_decode_opt_Char(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_Char(raw);
+  }
+
+  @protected
   int dco_decode_u_8(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as int;
@@ -332,6 +326,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   void dco_decode_unit(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return;
+  }
+
+  @protected
+  String sse_decode_Char(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var inner = sse_decode_String(deserializer);
+    return inner;
   }
 
   @protected
@@ -355,6 +356,17 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  String? sse_decode_opt_Char(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_Char(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
   int sse_decode_u_8(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getUint8();
@@ -369,6 +381,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   bool sse_decode_bool(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getUint8() != 0;
+  }
+
+  @protected
+  void sse_encode_Char(String self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self, serializer);
   }
 
   @protected
@@ -391,6 +409,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_32(self.length, serializer);
     serializer.buffer.putUint8List(self);
+  }
+
+  @protected
+  void sse_encode_opt_Char(String? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_Char(self, serializer);
+    }
   }
 
   @protected

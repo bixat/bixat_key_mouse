@@ -45,7 +45,7 @@ class _BixatKeyMouseDemoState extends State<BixatKeyMouseDemo> {
     try {
       int x = int.parse(_xController.text);
       int y = int.parse(_yController.text);
-      BixatKeyMouse.moveMouseAbs(x: x, y: y);
+      BixatKeyMouse.moveMouse(x: x, y: y);
       _updateStatus('Mouse moved to ($x, $y)');
     } catch (e) {
       _updateStatus('Error: Invalid coordinates');
@@ -56,7 +56,7 @@ class _BixatKeyMouseDemoState extends State<BixatKeyMouseDemo> {
     try {
       int x = int.parse(_xController.text);
       int y = int.parse(_yController.text);
-      BixatKeyMouse.moveMouseRel(x: x, y: y);
+      BixatKeyMouse.moveMouse(x: x, y: y, coordinate: Coordinate.relative);
       _updateStatus('Mouse moved by ($x, $y)');
     } catch (e) {
       _updateStatus('Error: Invalid coordinates');
@@ -65,21 +65,35 @@ class _BixatKeyMouseDemoState extends State<BixatKeyMouseDemo> {
 
   // Mouse button functions
   void _leftClick() {
-    BixatKeyMouse.pressMouseButton(button: 1);
-    BixatKeyMouse.releaseMouseButton(button: 1);
+    BixatKeyMouse.pressMouseButton(button: MouseButton.left);
+    BixatKeyMouse.pressMouseButton(
+      button: MouseButton.left,
+      direction: Direction.release,
+    );
     _updateStatus('Left click performed');
   }
 
   void _rightClick() {
-    BixatKeyMouse.pressMouseButton(button: 2);
-    BixatKeyMouse.releaseMouseButton(button: 2);
+    BixatKeyMouse.pressMouseButton(button: MouseButton.right);
+    BixatKeyMouse.pressMouseButton(
+      button: MouseButton.right,
+      direction: Direction.release,
+    );
     _updateStatus('Right click performed');
   }
 
   void _middleClick() {
-    BixatKeyMouse.pressMouseButton(button: 3);
-    BixatKeyMouse.releaseMouseButton(button: 3);
+    BixatKeyMouse.pressMouseButton(button: MouseButton.middle);
+    BixatKeyMouse.pressMouseButton(
+      button: MouseButton.middle,
+      direction: Direction.release,
+    );
     _updateStatus('Middle click performed');
+  }
+
+  void _scrollMouse() {
+    BixatKeyMouse.scrollMouse(axis: Axis.vertical, distance: 100);
+    _updateStatus('Scroll Down performed');
   }
 
   // Keyboard functions
@@ -94,7 +108,10 @@ class _BixatKeyMouseDemoState extends State<BixatKeyMouseDemo> {
 
   void _pressKey() {
     if (_keyController.text.isNotEmpty) {
-      BixatKeyMouse.simulateKey(key: _keyController.text);
+      BixatKeyMouse.simulateKey(
+        unicode: _keyController.text,
+        key: KeyboardKey.ctrl,
+      );
       _updateStatus('Key pressed: ${_keyController.text}');
     } else {
       _updateStatus('Please enter a key');
@@ -103,7 +120,10 @@ class _BixatKeyMouseDemoState extends State<BixatKeyMouseDemo> {
 
   void _releaseKey() {
     if (_keyController.text.isNotEmpty) {
-      BixatKeyMouse.releaseKey(key: _keyController.text);
+      BixatKeyMouse.simulateKey(
+        key: KeyboardKey.ctrl,
+        unicode: _textController.text,
+      );
       _updateStatus('Key released: ${_keyController.text}');
     } else {
       _updateStatus('Please enter a key');
@@ -112,22 +132,35 @@ class _BixatKeyMouseDemoState extends State<BixatKeyMouseDemo> {
 
   // Predefined actions
   void _performDoubleClick() {
-    BixatKeyMouse.pressMouseButton(button: 1);
-    BixatKeyMouse.releaseMouseButton(button: 1);
+    BixatKeyMouse.pressMouseButton(button: MouseButton.left);
+    BixatKeyMouse.pressMouseButton(
+      button: MouseButton.left,
+      direction: Direction.release,
+    );
     Future.delayed(const Duration(milliseconds: 100), () {
-      BixatKeyMouse.pressMouseButton(button: 1);
-      BixatKeyMouse.releaseMouseButton(button: 1);
+      BixatKeyMouse.pressMouseButton(button: MouseButton.left);
+      BixatKeyMouse.pressMouseButton(
+        button: MouseButton.left,
+        direction: Direction.release,
+      );
     });
     _updateStatus('Double click performed');
   }
 
   void _performKeyCombo() {
     // Simulate Ctrl+C
-    BixatKeyMouse.simulateKey(key: 'ctrl');
-    BixatKeyMouse.simulateKey(key: 'c');
+    BixatKeyMouse.simulateKey(key: KeyboardKey.ctrl);
+    BixatKeyMouse.simulateKey(key: KeyboardKey.ctrl, unicode: "c");
     Future.delayed(const Duration(milliseconds: 100), () {
-      BixatKeyMouse.releaseKey(key: 'c');
-      BixatKeyMouse.releaseKey(key: 'ctrl');
+      BixatKeyMouse.simulateKey(
+        key: KeyboardKey.ctrl,
+        unicode: "c",
+        direction: Direction.release,
+      );
+      BixatKeyMouse.simulateKey(
+        key: KeyboardKey.ctrl,
+        direction: Direction.release,
+      );
     });
     _updateStatus('Ctrl+C performed');
   }
@@ -249,6 +282,12 @@ class _BixatKeyMouseDemoState extends State<BixatKeyMouseDemo> {
                             child: const Text('Middle Click'),
                           ),
                         ),
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: _scrollMouse,
+                            child: const Text('Scroll Down'),
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 16),
@@ -347,28 +386,28 @@ class _BixatKeyMouseDemoState extends State<BixatKeyMouseDemo> {
                       children: [
                         ElevatedButton(
                           onPressed: () {
-                            BixatKeyMouse.simulateKey(key: 'enter');
+                            BixatKeyMouse.simulateKey(key: KeyboardKey.enter);
                             _updateStatus('Enter key pressed');
                           },
                           child: const Text('Enter'),
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            BixatKeyMouse.simulateKey(key: 'space');
+                            BixatKeyMouse.simulateKey(key: KeyboardKey.space);
                             _updateStatus('Space key pressed');
                           },
                           child: const Text('Space'),
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            BixatKeyMouse.simulateKey(key: 'tab');
+                            BixatKeyMouse.simulateKey(key: KeyboardKey.tab);
                             _updateStatus('Tab key pressed');
                           },
                           child: const Text('Tab'),
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            BixatKeyMouse.simulateKey(key: 'escape');
+                            BixatKeyMouse.simulateKey(key: KeyboardKey.escape);
                             _updateStatus('Escape key pressed');
                           },
                           child: const Text('Escape'),
