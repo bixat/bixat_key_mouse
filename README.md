@@ -38,27 +38,39 @@ import 'package:bixat_key_mouse/bixat_key_mouse.dart';
 
 void main() {
   // Move mouse to absolute position 🖱️
-  BixatKeyMouse.moveMouseAbs(100, 100);
+  BixatKeyMouse.moveMouse(x: x, y: y, coordinate: Coordinate.absolute);
 
   // Move mouse relative to current position ➡️
-  BixatKeyMouse.moveMouseRel(50, 50);
+  BixatKeyMouse.moveMouse(x: x, y: y, coordinate: Coordinate.relative);
+
+  // Click left mouse button 🖱️
+  BixatKeyMouse.pressMouseButton(
+    button: MouseButton.left,
+    direction: Direction.click,
+  );
 
   // Press left mouse button 🖱️
-  BixatKeyMouse.pressMouseButton(1);
+  BixatKeyMouse.pressMouseButton(
+    button: MouseButton.left,
+    direction: Direction.press,
+  );
 
   // Release left mouse button 🖱️
-  BixatKeyMouse.releaseMouseButton(1);
+  BixatKeyMouse.pressMouseButton(
+    button: MouseButton.left,
+    direction: Direction.release,
+  );
 
   // Enter text 🖋️
   final text = 'Hello, world!';
   BixatKeyMouse.enterText(text);
 
   // Simulate key press ⌨️
-  final key = KeyModifier.command;
+  final key = KeyboardKey.command;
   BixatKeyMouse.simulateKeyPress(key);
 
   // Release key ⌨️
-  final keyRelease = KeyModifier.capsLock;
+  final keyRelease = KeyboardKey.capsLock;
   BixatKeyMouse.simulateKeyPress(keyRelease);
 }
 ```
@@ -71,30 +83,33 @@ void main() {
 Move the mouse cursor to an absolute position on the screen. 📍
 
 ```dart
-BixatKeyMouse.moveMouseAbs(100, 100);
+BixatKeyMouse.moveMouse(x: x, y: y, coordinate: Coordinate.absolute);
 ```
 
 #### moveMouseRel(int dx, int dy)
 Move the mouse cursor relative to its current position. ➡️
 
 ```dart
-BixatKeyMouse.moveMouseRel(50, 50);
+BixatKeyMouse.moveMouse(x: x, y: y, coordinate: Coordinate.relative);
 ```
 
 #### pressMouseButton(int button)
 Press the specified mouse button. 🖱️
 
 ```dart
-BixatKeyMouse.pressMouseButton(1); // Left mouse button
-BixatKeyMouse.pressMouseButton(2); // Middle mouse button
-BixatKeyMouse.pressMouseButton(3); // Right mouse button
+BixatKeyMouse.pressMouseButton(MouseButton.left); // Left mouse button
+BixatKeyMouse.pressMouseButton(MouseButton.middle); // Middle mouse button
+BixatKeyMouse.pressMouseButton(MouseButton.right); // Right mouse button
 ```
 
 #### releaseMouseButton(int button)
 Release the specified mouse button. 🖱️
 
 ```dart
-BixatKeyMouse.releaseMouseButton(1);
+BixatKeyMouse.pressMouseButton(
+  button: MouseButton.left,
+  direction: Direction.release,
+);
 ```
 
 ### Text Input
@@ -109,19 +124,19 @@ BixatKeyMouse.enterText(text);
 
 ### Keyboard Simulation
 
-#### simulateKeyPress(KeyModifier modifier)
+#### simulateKeyPress(KeyboardKey modifier)
 Simulate key press. ⌨️
 
 ```dart
-final key = KeyModifier.command;
+final key = KeyboardKey.command;
 BixatKeyMouse.simulateKeyPress(key);
 ```
 
-#### simulateKeyPress(KeyModifier modifier)
+#### simulateKeyPress(KeyboardKey modifier)
 Simulate key release. ⌨️
 
 ```dart
-final keyRelease = KeyModifier.capsLock;
+final keyRelease = KeyboardKey.capsLock;
 BixatKeyMouse.simulateKeyPress(keyRelease);
 ```
 
@@ -130,7 +145,7 @@ BixatKeyMouse.simulateKeyPress(keyRelease);
 The package supports various key modifiers. Here's a list of available values: 🔑
 
 ```dart
-const KeyModifier {
+const KeyboardKey {
   command,
   shift,
   control,
