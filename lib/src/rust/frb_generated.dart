@@ -66,7 +66,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => -1486125728;
+  int get rustContentHash => -110583766;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -77,21 +77,21 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 }
 
 abstract class RustLibApi extends BaseApi {
-  void crateApiBixatKeyMouseEnterText({required String text});
+  void crateApiBixatKeyMouseEnterTextBase({required String text});
 
   Future<void> crateApiBixatKeyMouseInitApp();
 
-  void crateApiBixatKeyMouseMoveMouseAbs({required int x, required int y});
+  void crateApiBixatKeyMouseMoveMouseAbsBase({required int x, required int y});
 
-  void crateApiBixatKeyMouseMoveMouseRel({required int x, required int y});
+  void crateApiBixatKeyMouseMoveMouseRelBase({required int x, required int y});
 
-  void crateApiBixatKeyMousePressMouseButton({required int button});
+  void crateApiBixatKeyMousePressMouseButtonBase({required int button});
 
-  void crateApiBixatKeyMouseReleaseKey({required String key});
+  void crateApiBixatKeyMouseReleaseKeyBase({required String key});
 
-  void crateApiBixatKeyMouseReleaseMouseButton({required int button});
+  void crateApiBixatKeyMouseReleaseMouseButtonBase({required int button});
 
-  void crateApiBixatKeyMouseSimulateKey({required String key});
+  void crateApiBixatKeyMouseSimulateKeyBase({required String key});
 }
 
 class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
@@ -103,7 +103,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   });
 
   @override
-  void crateApiBixatKeyMouseEnterText({required String text}) {
+  void crateApiBixatKeyMouseEnterTextBase({required String text}) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
@@ -115,15 +115,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           decodeSuccessData: sse_decode_unit,
           decodeErrorData: null,
         ),
-        constMeta: kCrateApiBixatKeyMouseEnterTextConstMeta,
+        constMeta: kCrateApiBixatKeyMouseEnterTextBaseConstMeta,
         argValues: [text],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateApiBixatKeyMouseEnterTextConstMeta =>
-      const TaskConstMeta(debugName: "enter_text", argNames: ["text"]);
+  TaskConstMeta get kCrateApiBixatKeyMouseEnterTextBaseConstMeta =>
+      const TaskConstMeta(debugName: "enter_text_base", argNames: ["text"]);
 
   @override
   Future<void> crateApiBixatKeyMouseInitApp() {
@@ -153,7 +153,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(debugName: "init_app", argNames: []);
 
   @override
-  void crateApiBixatKeyMouseMoveMouseAbs({required int x, required int y}) {
+  void crateApiBixatKeyMouseMoveMouseAbsBase({required int x, required int y}) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
@@ -166,18 +166,21 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           decodeSuccessData: sse_decode_unit,
           decodeErrorData: null,
         ),
-        constMeta: kCrateApiBixatKeyMouseMoveMouseAbsConstMeta,
+        constMeta: kCrateApiBixatKeyMouseMoveMouseAbsBaseConstMeta,
         argValues: [x, y],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateApiBixatKeyMouseMoveMouseAbsConstMeta =>
-      const TaskConstMeta(debugName: "move_mouse_abs", argNames: ["x", "y"]);
+  TaskConstMeta get kCrateApiBixatKeyMouseMoveMouseAbsBaseConstMeta =>
+      const TaskConstMeta(
+        debugName: "move_mouse_abs_base",
+        argNames: ["x", "y"],
+      );
 
   @override
-  void crateApiBixatKeyMouseMoveMouseRel({required int x, required int y}) {
+  void crateApiBixatKeyMouseMoveMouseRelBase({required int x, required int y}) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
@@ -190,18 +193,21 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           decodeSuccessData: sse_decode_unit,
           decodeErrorData: null,
         ),
-        constMeta: kCrateApiBixatKeyMouseMoveMouseRelConstMeta,
+        constMeta: kCrateApiBixatKeyMouseMoveMouseRelBaseConstMeta,
         argValues: [x, y],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateApiBixatKeyMouseMoveMouseRelConstMeta =>
-      const TaskConstMeta(debugName: "move_mouse_rel", argNames: ["x", "y"]);
+  TaskConstMeta get kCrateApiBixatKeyMouseMoveMouseRelBaseConstMeta =>
+      const TaskConstMeta(
+        debugName: "move_mouse_rel_base",
+        argNames: ["x", "y"],
+      );
 
   @override
-  void crateApiBixatKeyMousePressMouseButton({required int button}) {
+  void crateApiBixatKeyMousePressMouseButtonBase({required int button}) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
@@ -213,21 +219,21 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           decodeSuccessData: sse_decode_unit,
           decodeErrorData: null,
         ),
-        constMeta: kCrateApiBixatKeyMousePressMouseButtonConstMeta,
+        constMeta: kCrateApiBixatKeyMousePressMouseButtonBaseConstMeta,
         argValues: [button],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateApiBixatKeyMousePressMouseButtonConstMeta =>
+  TaskConstMeta get kCrateApiBixatKeyMousePressMouseButtonBaseConstMeta =>
       const TaskConstMeta(
-        debugName: "press_mouse_button",
+        debugName: "press_mouse_button_base",
         argNames: ["button"],
       );
 
   @override
-  void crateApiBixatKeyMouseReleaseKey({required String key}) {
+  void crateApiBixatKeyMouseReleaseKeyBase({required String key}) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
@@ -239,18 +245,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           decodeSuccessData: sse_decode_unit,
           decodeErrorData: null,
         ),
-        constMeta: kCrateApiBixatKeyMouseReleaseKeyConstMeta,
+        constMeta: kCrateApiBixatKeyMouseReleaseKeyBaseConstMeta,
         argValues: [key],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateApiBixatKeyMouseReleaseKeyConstMeta =>
-      const TaskConstMeta(debugName: "release_key", argNames: ["key"]);
+  TaskConstMeta get kCrateApiBixatKeyMouseReleaseKeyBaseConstMeta =>
+      const TaskConstMeta(debugName: "release_key_base", argNames: ["key"]);
 
   @override
-  void crateApiBixatKeyMouseReleaseMouseButton({required int button}) {
+  void crateApiBixatKeyMouseReleaseMouseButtonBase({required int button}) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
@@ -262,21 +268,21 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           decodeSuccessData: sse_decode_unit,
           decodeErrorData: null,
         ),
-        constMeta: kCrateApiBixatKeyMouseReleaseMouseButtonConstMeta,
+        constMeta: kCrateApiBixatKeyMouseReleaseMouseButtonBaseConstMeta,
         argValues: [button],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateApiBixatKeyMouseReleaseMouseButtonConstMeta =>
+  TaskConstMeta get kCrateApiBixatKeyMouseReleaseMouseButtonBaseConstMeta =>
       const TaskConstMeta(
-        debugName: "release_mouse_button",
+        debugName: "release_mouse_button_base",
         argNames: ["button"],
       );
 
   @override
-  void crateApiBixatKeyMouseSimulateKey({required String key}) {
+  void crateApiBixatKeyMouseSimulateKeyBase({required String key}) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
@@ -288,15 +294,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           decodeSuccessData: sse_decode_unit,
           decodeErrorData: null,
         ),
-        constMeta: kCrateApiBixatKeyMouseSimulateKeyConstMeta,
+        constMeta: kCrateApiBixatKeyMouseSimulateKeyBaseConstMeta,
         argValues: [key],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateApiBixatKeyMouseSimulateKeyConstMeta =>
-      const TaskConstMeta(debugName: "simulate_key", argNames: ["key"]);
+  TaskConstMeta get kCrateApiBixatKeyMouseSimulateKeyBaseConstMeta =>
+      const TaskConstMeta(debugName: "simulate_key_base", argNames: ["key"]);
 
   @protected
   String dco_decode_String(dynamic raw) {

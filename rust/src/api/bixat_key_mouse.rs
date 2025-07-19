@@ -5,19 +5,19 @@ use enigo::{
 };
 
 #[flutter_rust_bridge::frb(sync)]
-pub fn move_mouse_abs(x: i32, y: i32) {
+pub fn move_mouse_abs_base(x: i32, y: i32) {
     let mut enigo = Enigo::new(&Settings::default()).unwrap();
     enigo.move_mouse(x, y, Coordinate::Abs);
 }
 
 #[flutter_rust_bridge::frb(sync)]
-pub fn move_mouse_rel(x: i32, y: i32) {
+pub fn move_mouse_rel_base(x: i32, y: i32) {
     let mut enigo = Enigo::new(&Settings::default()).unwrap();
     enigo.move_mouse(x, y, Coordinate::Rel);
 }
 
 #[flutter_rust_bridge::frb(sync)]
-pub fn press_mouse_button(button: i32) {
+pub fn press_mouse_button_base(button: i32) {
     let mut enigo = Enigo::new(&Settings::default()).unwrap();
     let button = match button {
         1 => Button::Left,
@@ -28,13 +28,13 @@ pub fn press_mouse_button(button: i32) {
 }
 
 #[flutter_rust_bridge::frb(sync)]
-pub fn release_mouse_button(button: i32) {
+pub fn release_mouse_button_base(button: i32) {
     let mut enigo = Enigo::new(&Settings::default()).unwrap();
     // TODO: Handle it automatically.
     let button = match button {
         1 => Button::Left,
-        2 => Button::Right,
         3 => Button::Middle,
+        2 => Button::Right,
         4 => Button::Back,
         5 => Button::Forward,
         6 => Button::ScrollUp,
@@ -47,13 +47,13 @@ pub fn release_mouse_button(button: i32) {
 }
 
 #[flutter_rust_bridge::frb(sync)]
-pub fn enter_text(text: &str) {
+pub fn enter_text_base(text: &str) {
     let mut enigo = Enigo::new(&Settings::default()).unwrap();
     enigo.text(text);
 }
 
 #[flutter_rust_bridge::frb(sync)]
-pub fn simulate_key(key: &str) {
+pub fn simulate_key_base(key: &str) {
     let mut enigo = Enigo::new(&Settings::default()).unwrap();
 
     match key {
@@ -68,7 +68,7 @@ pub fn simulate_key(key: &str) {
 }
 
 #[flutter_rust_bridge::frb(sync)]
-pub fn release_key(key: &str) {
+pub fn release_key_base(key: &str) {
     let mut enigo = Enigo::new(&Settings::default()).unwrap();
     match key {
         "Control" => enigo.key(Key::Control, Release).unwrap(),
