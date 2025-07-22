@@ -100,7 +100,6 @@ abstract class RustLibApi extends BaseApi {
   void crateApiBixatKeyMouseSimulateKeyBase({
     required int key,
     required int direction,
-    String? unicode,
   });
 }
 
@@ -258,15 +257,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   void crateApiBixatKeyMouseSimulateKeyBase({
     required int key,
     required int direction,
-    String? unicode,
   }) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_i_32(key, serializer);
+          sse_encode_u_16(key, serializer);
           sse_encode_i_32(direction, serializer);
-          sse_encode_opt_Char(unicode, serializer);
           return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6)!;
         },
         codec: SseCodec(
@@ -274,7 +271,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           decodeErrorData: null,
         ),
         constMeta: kCrateApiBixatKeyMouseSimulateKeyBaseConstMeta,
-        argValues: [key, direction, unicode],
+        argValues: [key, direction],
         apiImpl: this,
       ),
     );
@@ -283,14 +280,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   TaskConstMeta get kCrateApiBixatKeyMouseSimulateKeyBaseConstMeta =>
       const TaskConstMeta(
         debugName: "simulate_key_base",
-        argNames: ["key", "direction", "unicode"],
+        argNames: ["key", "direction"],
       );
-
-  @protected
-  String dco_decode_Char(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return String.fromCharCode(raw);
-  }
 
   @protected
   String dco_decode_String(dynamic raw) {
@@ -311,9 +302,9 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  String? dco_decode_opt_Char(dynamic raw) {
+  int dco_decode_u_16(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw == null ? null : dco_decode_Char(raw);
+    return raw as int;
   }
 
   @protected
@@ -326,13 +317,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   void dco_decode_unit(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return;
-  }
-
-  @protected
-  String sse_decode_Char(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var inner = sse_decode_String(deserializer);
-    return inner;
   }
 
   @protected
@@ -356,14 +340,9 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  String? sse_decode_opt_Char(SseDeserializer deserializer) {
+  int sse_decode_u_16(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_Char(deserializer));
-    } else {
-      return null;
-    }
+    return deserializer.buffer.getUint16();
   }
 
   @protected
@@ -381,12 +360,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   bool sse_decode_bool(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getUint8() != 0;
-  }
-
-  @protected
-  void sse_encode_Char(String self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_String(self, serializer);
   }
 
   @protected
@@ -412,13 +385,9 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_opt_Char(String? self, SseSerializer serializer) {
+  void sse_encode_u_16(int self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_Char(self, serializer);
-    }
+    serializer.buffer.putUint16(self);
   }
 
   @protected

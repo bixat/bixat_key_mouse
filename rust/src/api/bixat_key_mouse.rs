@@ -1,8 +1,7 @@
 use enigo::{Enigo, Key, Keyboard, Mouse, Settings};
 
 use crate::helpers::{
-    get_axis_by_index, get_coordinate_by_index, get_direction_by_index, get_key_by_index,
-    get_mouse_button_by_index,
+    get_axis_by_index, get_coordinate_by_index, get_direction_by_index, get_mouse_button_by_index,
 };
 
 #[flutter_rust_bridge::frb(sync)]
@@ -27,17 +26,10 @@ pub fn enter_text_base(text: &str) {
 }
 
 #[flutter_rust_bridge::frb(sync)]
-pub fn simulate_key_base(key: i32, direction: i32, unicode: Option<char>) {
+pub fn simulate_key_base(key: u16, direction: i32) {
     let mut enigo = Enigo::new(&Settings::default()).unwrap();
     let direction = get_direction_by_index(direction);
-    let key = get_key_by_index(key);
-    if unicode.is_some() {
-        enigo
-            .key(Key::Unicode(unicode.unwrap()), direction)
-            .unwrap();
-    } else {
-        enigo.key(key, direction).unwrap()
-    }
+    enigo.raw(key, direction);
 }
 
 #[flutter_rust_bridge::frb(sync)]

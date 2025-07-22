@@ -232,17 +232,12 @@ fn wire__crate__api__bixat_key_mouse__simulate_key_base_impl(
             };
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_key = <i32>::sse_decode(&mut deserializer);
+            let api_key = <u16>::sse_decode(&mut deserializer);
             let api_direction = <i32>::sse_decode(&mut deserializer);
-            let api_unicode = <Option<char>>::sse_decode(&mut deserializer);
             deserializer.end();
             transform_result_sse::<_, ()>((move || {
                 let output_ok = Result::<_, ()>::Ok({
-                    crate::api::bixat_key_mouse::simulate_key_base(
-                        api_key,
-                        api_direction,
-                        api_unicode,
-                    );
+                    crate::api::bixat_key_mouse::simulate_key_base(api_key, api_direction);
                 })?;
                 Ok(output_ok)
             })())
@@ -251,14 +246,6 @@ fn wire__crate__api__bixat_key_mouse__simulate_key_base_impl(
 }
 
 // Section: dart2rust
-
-impl SseDecode for char {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <String>::sse_decode(deserializer);
-        return inner.chars().next().unwrap();
-    }
-}
 
 impl SseDecode for String {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -287,14 +274,10 @@ impl SseDecode for Vec<u8> {
     }
 }
 
-impl SseDecode for Option<char> {
+impl SseDecode for u16 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        if (<bool>::sse_decode(deserializer)) {
-            return Some(<char>::sse_decode(deserializer));
-        } else {
-            return None;
-        }
+        deserializer.cursor.read_u16::<NativeEndian>().unwrap()
     }
 }
 
@@ -354,13 +337,6 @@ fn pde_ffi_dispatcher_sync_impl(
 
 // Section: rust2dart
 
-impl SseEncode for char {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <String>::sse_encode(self.to_string(), serializer);
-    }
-}
-
 impl SseEncode for String {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -385,13 +361,10 @@ impl SseEncode for Vec<u8> {
     }
 }
 
-impl SseEncode for Option<char> {
+impl SseEncode for u16 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <char>::sse_encode(value, serializer);
-        }
+        serializer.cursor.write_u16::<NativeEndian>(self).unwrap();
     }
 }
 

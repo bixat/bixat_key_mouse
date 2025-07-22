@@ -22,15 +22,10 @@ void pressMouseButtonBase({required int button, required int direction}) =>
 void enterTextBase({required String text}) =>
     RustLib.instance.api.crateApiBixatKeyMouseEnterTextBase(text: text);
 
-void simulateKeyBase({
-  required int key,
-  required int direction,
-  String? unicode,
-}) => RustLib.instance.api.crateApiBixatKeyMouseSimulateKeyBase(
-  key: key,
-  direction: direction,
-  unicode: unicode,
-);
+void simulateKeyBase({required int key, required int direction}) => RustLib
+    .instance
+    .api
+    .crateApiBixatKeyMouseSimulateKeyBase(key: key, direction: direction);
 
 void scrollMouseBase({required int distance, required int axis}) => RustLib
     .instance

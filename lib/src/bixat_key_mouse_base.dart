@@ -1,4 +1,4 @@
-import 'package:bixat_key_mouse/src/enums.dart';
+import 'package:bixat_key_mouse/bixat_key_mouse.dart';
 import 'package:bixat_key_mouse/src/rust/api/bixat_key_mouse.dart';
 import 'package:flutter/widgets.dart';
 
@@ -17,14 +17,12 @@ class BixatKeyMouse {
   static void enterText({required String text}) => enterTextBase(text: text);
 
   static void simulateKey({
-    required KeyboardKey key,
+    required UniversalKey key,
     Direction direction = Direction.press,
-    String? unicode,
-  }) => simulateKeyBase(
-    key: key.index,
-    direction: direction.index,
-    unicode: unicode,
-  );
+  }) {
+    print(direction);
+    simulateKeyBase(key: key.code, direction: direction.index);
+  }
 
   static void scrollMouse({
     required int distance,
