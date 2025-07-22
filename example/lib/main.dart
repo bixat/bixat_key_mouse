@@ -108,11 +108,8 @@ class _BixatKeyMouseDemoState extends State<BixatKeyMouseDemo> {
 
   void _pressKey() {
     if (_keyController.text.isNotEmpty) {
-      BixatKeyMouse.simulateKey(
-        unicode: _keyController.text,
-        key: KeyboardKey.ctrl,
-      );
-      _updateStatus('Key pressed: ${_keyController.text}');
+      BixatKeyMouse.simulateKey(key: UniversalKey.rightControl);
+      _updateStatus('Key pressed: ${UniversalKey.rightControl.name}');
     } else {
       _updateStatus('Please enter a key');
     }
@@ -120,11 +117,8 @@ class _BixatKeyMouseDemoState extends State<BixatKeyMouseDemo> {
 
   void _releaseKey() {
     if (_keyController.text.isNotEmpty) {
-      BixatKeyMouse.simulateKey(
-        key: KeyboardKey.ctrl,
-        unicode: _textController.text,
-      );
-      _updateStatus('Key released: ${_keyController.text}');
+      BixatKeyMouse.simulateKey(key: UniversalKey.rightControl);
+      _updateStatus('Key released: ${UniversalKey.rightControl.name}');
     } else {
       _updateStatus('Please enter a key');
     }
@@ -149,16 +143,15 @@ class _BixatKeyMouseDemoState extends State<BixatKeyMouseDemo> {
 
   void _performKeyCombo() {
     // Simulate Ctrl+C
-    BixatKeyMouse.simulateKey(key: KeyboardKey.ctrl);
-    BixatKeyMouse.simulateKey(key: KeyboardKey.ctrl, unicode: "c");
-    Future.delayed(const Duration(milliseconds: 100), () {
+    BixatKeyMouse.simulateKey(key: UniversalKey.leftCommand);
+    BixatKeyMouse.simulateKey(key: UniversalKey.tab);
+    Future.delayed(const Duration(seconds: 3), () {
       BixatKeyMouse.simulateKey(
-        key: KeyboardKey.ctrl,
-        unicode: "c",
+        key: UniversalKey.leftCommand,
         direction: Direction.release,
       );
       BixatKeyMouse.simulateKey(
-        key: KeyboardKey.ctrl,
+        key: UniversalKey.tab,
         direction: Direction.release,
       );
     });
@@ -386,28 +379,30 @@ class _BixatKeyMouseDemoState extends State<BixatKeyMouseDemo> {
                       children: [
                         ElevatedButton(
                           onPressed: () {
-                            BixatKeyMouse.simulateKey(key: KeyboardKey.enter);
+                            BixatKeyMouse.simulateKey(
+                              key: UniversalKey.numPadEnter,
+                            );
                             _updateStatus('Enter key pressed');
                           },
                           child: const Text('Enter'),
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            BixatKeyMouse.simulateKey(key: KeyboardKey.space);
+                            BixatKeyMouse.simulateKey(key: UniversalKey.space);
                             _updateStatus('Space key pressed');
                           },
                           child: const Text('Space'),
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            BixatKeyMouse.simulateKey(key: KeyboardKey.tab);
+                            BixatKeyMouse.simulateKey(key: UniversalKey.tab);
                             _updateStatus('Tab key pressed');
                           },
                           child: const Text('Tab'),
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            BixatKeyMouse.simulateKey(key: KeyboardKey.escape);
+                            BixatKeyMouse.simulateKey(key: UniversalKey.escape);
                             _updateStatus('Escape key pressed');
                           },
                           child: const Text('Escape'),
