@@ -19,10 +19,7 @@ class BixatKeyMouse {
   static void simulateKey({
     required UniversalKey key,
     Direction direction = Direction.press,
-  }) {
-    print(direction);
-    simulateKeyBase(key: key.code, direction: direction.index);
-  }
+  }) => simulateKeyBase(key: key.code, direction: direction.index);
 
   static void scrollMouse({
     required int distance,

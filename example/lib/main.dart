@@ -141,21 +141,20 @@ class _BixatKeyMouseDemoState extends State<BixatKeyMouseDemo> {
     _updateStatus('Double click performed');
   }
 
-  void _performKeyCombo() {
-    // Simulate Ctrl+C
-    BixatKeyMouse.simulateKey(key: UniversalKey.leftCommand);
-    BixatKeyMouse.simulateKey(key: UniversalKey.tab);
-    Future.delayed(const Duration(seconds: 3), () {
-      BixatKeyMouse.simulateKey(
-        key: UniversalKey.leftCommand,
-        direction: Direction.release,
-      );
-      BixatKeyMouse.simulateKey(
-        key: UniversalKey.tab,
-        direction: Direction.release,
-      );
-    });
-    _updateStatus('Ctrl+C performed');
+  Future<void> _performKeyCombo() async {
+    // Simulate Command+Space
+    BixatKeyMouse.simulateKey(key: UniversalKey.rightCommand);
+    BixatKeyMouse.simulateKey(key: UniversalKey.space);
+    await Future.delayed(const Duration(milliseconds: 10));
+    BixatKeyMouse.simulateKey(
+      key: UniversalKey.rightCommand,
+      direction: Direction.release,
+    );
+    BixatKeyMouse.simulateKey(
+      key: UniversalKey.space,
+      direction: Direction.release,
+    );
+    _updateStatus('Command+Space performed');
   }
 
   @override
@@ -351,7 +350,7 @@ class _BixatKeyMouseDemoState extends State<BixatKeyMouseDemo> {
                     const SizedBox(height: 16),
                     ElevatedButton(
                       onPressed: _performKeyCombo,
-                      child: const Text('Ctrl+C Combo'),
+                      child: const Text('Command+Space Combo'),
                     ),
                   ],
                 ),
