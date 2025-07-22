@@ -21,6 +21,16 @@ flutter pub add bixat_key_mouse
 
 Then run `flutter pub get` to install the package.
 
+## Supported Platforms
+
+| Platform | Tested |
+|----------|--------|
+| Linux    | No    |
+| Windows  | No    |
+| macOS    | Yes    |
+| BSD      | No     |
+
+
 ## Getting Started
 
 To use Bixat Key Mouse in your Dart code, import the package:
