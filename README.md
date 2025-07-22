@@ -66,12 +66,12 @@ void main() {
   BixatKeyMouse.enterText(text);
 
   // Simulate key press ⌨️
-  final key = KeyboardKey.command;
+  final key = UniversalKey.leftCommand;
   BixatKeyMouse.simulateKeyPress(key);
 
   // Release key ⌨️
-  final keyRelease = KeyboardKey.capsLock;
-  BixatKeyMouse.simulateKeyPress(keyRelease);
+  final keyRelease = UniversalKey.capsLock;
+  BixatKeyMouse.simulateKeyPress(keyRelease, direction: Direction.release);
 }
 ```
 
@@ -124,36 +124,20 @@ BixatKeyMouse.enterText(text);
 
 ### Keyboard Simulation
 
-#### simulateKeyPress(KeyboardKey modifier)
+#### simulateKeyPress(UniversalKey modifier, {Direction direction = Direction.press})
 Simulate key press. ⌨️
 
 ```dart
-final key = KeyboardKey.command;
+final key = UniversalKey.leftCommand;
 BixatKeyMouse.simulateKeyPress(key);
 ```
 
-#### simulateKeyPress(KeyboardKey modifier)
+#### simulateKeyPress(UniversalKey modifier, {Direction direction = Direction.release})
 Simulate key release. ⌨️
 
 ```dart
-final keyRelease = KeyboardKey.capsLock;
+final keyRelease = UniversalKey.capsLock;
 BixatKeyMouse.simulateKeyPress(keyRelease);
-```
-
-## Key Modifier Values
-
-The package supports various key modifiers. Here's a list of available values: 🔑
-
-```dart
-const KeyboardKey {
-  command,
-  shift,
-  control,
-  alt,
-  capsLock,
-  numLock,
-  scrollLock,
-}
 ```
 
 ## Advanced Usage
