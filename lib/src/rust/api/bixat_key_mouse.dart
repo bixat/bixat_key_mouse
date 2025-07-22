@@ -6,25 +6,28 @@
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-class BixatKeyMouse {
-  static void moveMouseAbs({required int x, required int y}) =>
-      RustLib.instance.api.crateApiBixatKeyMouseMoveMouseAbs(x: x, y: y);
+void moveMouseBase({required int x, required int y, required int coordinate}) =>
+    RustLib.instance.api.crateApiBixatKeyMouseMoveMouseBase(
+      x: x,
+      y: y,
+      coordinate: coordinate,
+    );
 
-  static void moveMouseRel({required int x, required int y}) =>
-      RustLib.instance.api.crateApiBixatKeyMouseMoveMouseRel(x: x, y: y);
+void pressMouseButtonBase({required int button, required int direction}) =>
+    RustLib.instance.api.crateApiBixatKeyMousePressMouseButtonBase(
+      button: button,
+      direction: direction,
+    );
 
-  static void pressMouseButton({required int button}) => RustLib.instance.api
-      .crateApiBixatKeyMousePressMouseButton(button: button);
+void enterTextBase({required String text}) =>
+    RustLib.instance.api.crateApiBixatKeyMouseEnterTextBase(text: text);
 
-  static void releaseMouseButton({required int button}) => RustLib.instance.api
-      .crateApiBixatKeyMouseReleaseMouseButton(button: button);
+void simulateKeyBase({required int key, required int direction}) => RustLib
+    .instance
+    .api
+    .crateApiBixatKeyMouseSimulateKeyBase(key: key, direction: direction);
 
-  static void enterText({required String text}) =>
-      RustLib.instance.api.crateApiBixatKeyMouseEnterText(text: text);
-
-  static void simulateKey({required String key}) =>
-      RustLib.instance.api.crateApiBixatKeyMouseSimulateKey(key: key);
-
-  static void releaseKey({required String key}) =>
-      RustLib.instance.api.crateApiBixatKeyMouseReleaseKey(key: key);
-}
+void scrollMouseBase({required int distance, required int axis}) => RustLib
+    .instance
+    .api
+    .crateApiBixatKeyMouseScrollMouseBase(distance: distance, axis: axis);

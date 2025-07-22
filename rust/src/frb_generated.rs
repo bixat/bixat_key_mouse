@@ -37,7 +37,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1486125728;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -2000922009;
 
 // Section: executor
 
@@ -45,14 +45,14 @@ flutter_rust_bridge::frb_generated_default_handler!();
 
 // Section: wire_funcs
 
-fn wire__crate__api__bixat_key_mouse__enter_text_impl(
+fn wire__crate__api__bixat_key_mouse__enter_text_base_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
     data_len_: i32,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "enter_text",
+            debug_name: "enter_text_base",
             port: None,
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
         },
@@ -70,7 +70,7 @@ fn wire__crate__api__bixat_key_mouse__enter_text_impl(
             deserializer.end();
             transform_result_sse::<_, ()>((move || {
                 let output_ok = Result::<_, ()>::Ok({
-                    crate::api::bixat_key_mouse::enter_text(&api_text);
+                    crate::api::bixat_key_mouse::enter_text_base(&api_text);
                 })?;
                 Ok(output_ok)
             })())
@@ -111,14 +111,14 @@ fn wire__crate__api__bixat_key_mouse__init_app_impl(
         },
     )
 }
-fn wire__crate__api__bixat_key_mouse__move_mouse_abs_impl(
+fn wire__crate__api__bixat_key_mouse__move_mouse_base_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
     data_len_: i32,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "move_mouse_abs",
+            debug_name: "move_mouse_base",
             port: None,
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
         },
@@ -134,57 +134,25 @@ fn wire__crate__api__bixat_key_mouse__move_mouse_abs_impl(
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             let api_x = <i32>::sse_decode(&mut deserializer);
             let api_y = <i32>::sse_decode(&mut deserializer);
+            let api_coordinate = <i32>::sse_decode(&mut deserializer);
             deserializer.end();
             transform_result_sse::<_, ()>((move || {
                 let output_ok = Result::<_, ()>::Ok({
-                    crate::api::bixat_key_mouse::move_mouse_abs(api_x, api_y);
+                    crate::api::bixat_key_mouse::move_mouse_base(api_x, api_y, api_coordinate);
                 })?;
                 Ok(output_ok)
             })())
         },
     )
 }
-fn wire__crate__api__bixat_key_mouse__move_mouse_rel_impl(
+fn wire__crate__api__bixat_key_mouse__press_mouse_button_base_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
     data_len_: i32,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "move_mouse_rel",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_x = <i32>::sse_decode(&mut deserializer);
-            let api_y = <i32>::sse_decode(&mut deserializer);
-            deserializer.end();
-            transform_result_sse::<_, ()>((move || {
-                let output_ok = Result::<_, ()>::Ok({
-                    crate::api::bixat_key_mouse::move_mouse_rel(api_x, api_y);
-                })?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__crate__api__bixat_key_mouse__press_mouse_button_impl(
-    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
-    rust_vec_len_: i32,
-    data_len_: i32,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "press_mouse_button",
+            debug_name: "press_mouse_button_base",
             port: None,
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
         },
@@ -199,24 +167,25 @@ fn wire__crate__api__bixat_key_mouse__press_mouse_button_impl(
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             let api_button = <i32>::sse_decode(&mut deserializer);
+            let api_direction = <i32>::sse_decode(&mut deserializer);
             deserializer.end();
             transform_result_sse::<_, ()>((move || {
                 let output_ok = Result::<_, ()>::Ok({
-                    crate::api::bixat_key_mouse::press_mouse_button(api_button);
+                    crate::api::bixat_key_mouse::press_mouse_button_base(api_button, api_direction);
                 })?;
                 Ok(output_ok)
             })())
         },
     )
 }
-fn wire__crate__api__bixat_key_mouse__release_key_impl(
+fn wire__crate__api__bixat_key_mouse__scroll_mouse_base_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
     data_len_: i32,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "release_key",
+            debug_name: "scroll_mouse_base",
             port: None,
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
         },
@@ -230,25 +199,26 @@ fn wire__crate__api__bixat_key_mouse__release_key_impl(
             };
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_key = <String>::sse_decode(&mut deserializer);
+            let api_distance = <i32>::sse_decode(&mut deserializer);
+            let api_axis = <i32>::sse_decode(&mut deserializer);
             deserializer.end();
             transform_result_sse::<_, ()>((move || {
                 let output_ok = Result::<_, ()>::Ok({
-                    crate::api::bixat_key_mouse::release_key(&api_key);
+                    crate::api::bixat_key_mouse::scroll_mouse_base(api_distance, api_axis);
                 })?;
                 Ok(output_ok)
             })())
         },
     )
 }
-fn wire__crate__api__bixat_key_mouse__release_mouse_button_impl(
+fn wire__crate__api__bixat_key_mouse__simulate_key_base_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
     data_len_: i32,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "release_mouse_button",
+            debug_name: "simulate_key_base",
             port: None,
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
         },
@@ -262,43 +232,12 @@ fn wire__crate__api__bixat_key_mouse__release_mouse_button_impl(
             };
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_button = <i32>::sse_decode(&mut deserializer);
+            let api_key = <u16>::sse_decode(&mut deserializer);
+            let api_direction = <i32>::sse_decode(&mut deserializer);
             deserializer.end();
             transform_result_sse::<_, ()>((move || {
                 let output_ok = Result::<_, ()>::Ok({
-                    crate::api::bixat_key_mouse::release_mouse_button(api_button);
-                })?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__crate__api__bixat_key_mouse__simulate_key_impl(
-    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
-    rust_vec_len_: i32,
-    data_len_: i32,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "simulate_key",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_key = <String>::sse_decode(&mut deserializer);
-            deserializer.end();
-            transform_result_sse::<_, ()>((move || {
-                let output_ok = Result::<_, ()>::Ok({
-                    crate::api::bixat_key_mouse::simulate_key(&api_key);
+                    crate::api::bixat_key_mouse::simulate_key_base(api_key, api_direction);
                 })?;
                 Ok(output_ok)
             })())
@@ -332,6 +271,13 @@ impl SseDecode for Vec<u8> {
             ans_.push(<u8>::sse_decode(deserializer));
         }
         return ans_;
+    }
+}
+
+impl SseDecode for u16 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        deserializer.cursor.read_u16::<NativeEndian>().unwrap()
     }
 }
 
@@ -376,19 +322,15 @@ fn pde_ffi_dispatcher_sync_impl(
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
     // Codec=Pde (Serialization + dispatch), see doc to use other codecs
     match func_id {
-        1 => wire__crate__api__bixat_key_mouse__enter_text_impl(ptr, rust_vec_len, data_len),
-        3 => wire__crate__api__bixat_key_mouse__move_mouse_abs_impl(ptr, rust_vec_len, data_len),
-        4 => wire__crate__api__bixat_key_mouse__move_mouse_rel_impl(ptr, rust_vec_len, data_len),
-        5 => {
-            wire__crate__api__bixat_key_mouse__press_mouse_button_impl(ptr, rust_vec_len, data_len)
-        }
-        6 => wire__crate__api__bixat_key_mouse__release_key_impl(ptr, rust_vec_len, data_len),
-        7 => wire__crate__api__bixat_key_mouse__release_mouse_button_impl(
+        1 => wire__crate__api__bixat_key_mouse__enter_text_base_impl(ptr, rust_vec_len, data_len),
+        3 => wire__crate__api__bixat_key_mouse__move_mouse_base_impl(ptr, rust_vec_len, data_len),
+        4 => wire__crate__api__bixat_key_mouse__press_mouse_button_base_impl(
             ptr,
             rust_vec_len,
             data_len,
         ),
-        8 => wire__crate__api__bixat_key_mouse__simulate_key_impl(ptr, rust_vec_len, data_len),
+        5 => wire__crate__api__bixat_key_mouse__scroll_mouse_base_impl(ptr, rust_vec_len, data_len),
+        6 => wire__crate__api__bixat_key_mouse__simulate_key_base_impl(ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -416,6 +358,13 @@ impl SseEncode for Vec<u8> {
         for item in self {
             <u8>::sse_encode(item, serializer);
         }
+    }
+}
+
+impl SseEncode for u16 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        serializer.cursor.write_u16::<NativeEndian>(self).unwrap();
     }
 }
 

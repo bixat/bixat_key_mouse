@@ -13,3 +13,8 @@
 ## 1.0.0
 
 * Refactor plugin using `Flutter Rust Bridge`
+
+## 1.0.1
+
+* Adds 'scrollMouse' method to the plugin
+* Adds more enums
