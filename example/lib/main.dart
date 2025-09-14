@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:bixat_key_mouse/bixat_key_mouse.dart';
 
 Future<void> main() async {
-  await RustLib.init();
+  await BixatKeyMouse.initialize();
   runApp(const MyApp());
 }
 
@@ -92,7 +92,7 @@ class _BixatKeyMouseDemoState extends State<BixatKeyMouseDemo> {
   }
 
   void _scrollMouse() {
-    BixatKeyMouse.scrollMouse(axis: Axis.vertical, distance: 100);
+    BixatKeyMouse.scrollMouse(axis: ScrollAxis.vertical, distance: 100);
     _updateStatus('Scroll Down performed');
   }
 
@@ -143,16 +143,8 @@ class _BixatKeyMouseDemoState extends State<BixatKeyMouseDemo> {
 
   Future<void> _performKeyCombo() async {
     // Simulate Command+Space
-    BixatKeyMouse.simulateKey(key: UniversalKey.rightCommand);
-    BixatKeyMouse.simulateKey(key: UniversalKey.space);
-    await Future.delayed(const Duration(milliseconds: 10));
-    BixatKeyMouse.simulateKey(
-      key: UniversalKey.rightCommand,
-      direction: Direction.release,
-    );
-    BixatKeyMouse.simulateKey(
-      key: UniversalKey.space,
-      direction: Direction.release,
+    BixatKeyMouse.simulateKeyCombination(
+      keys: [UniversalKey.rightCommand, UniversalKey.space],
     );
     _updateStatus('Command+Space performed');
   }

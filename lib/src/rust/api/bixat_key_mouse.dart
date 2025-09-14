@@ -27,6 +27,14 @@ void simulateKeyBase({required int key, required int direction}) => RustLib
     .api
     .crateApiBixatKeyMouseSimulateKeyBase(key: key, direction: direction);
 
+void simulateKeyCombinationBase({
+  required List<int> keys,
+  required BigInt durationMs,
+}) => RustLib.instance.api.crateApiBixatKeyMouseSimulateKeyCombinationBase(
+  keys: keys,
+  durationMs: durationMs,
+);
+
 void scrollMouseBase({required int distance, required int axis}) => RustLib
     .instance
     .api

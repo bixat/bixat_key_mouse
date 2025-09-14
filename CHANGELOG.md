@@ -18,3 +18,9 @@
 
 * Adds 'scrollMouse' method to the plugin
 * Adds more enums
+* Support desktop platforms keyboard keys
+
+# 1.0.2
+
+* Adds `simulateKeyCombination` method for combo keys
+* Renamed `Axis` to `ScrollAxis`

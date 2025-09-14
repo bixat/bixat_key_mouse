@@ -1,8 +1,19 @@
 import 'package:bixat_key_mouse/bixat_key_mouse.dart';
 import 'package:bixat_key_mouse/src/rust/api/bixat_key_mouse.dart';
-import 'package:flutter/widgets.dart';
 
 class BixatKeyMouse {
+  static Future<void> initialize() async {
+    await RustLib.init();
+  }
+
+  static void simulateKeyCombination({
+    required List<UniversalKey> keys,
+    Duration duration = const Duration(milliseconds: 100),
+  }) => simulateKeyCombinationBase(
+    keys: keys.map((key) => key.code).toList(),
+    durationMs: BigInt.from(duration.inMilliseconds),
+  );
+
   static void moveMouse({
     required int x,
     required int y,
@@ -23,6 +34,6 @@ class BixatKeyMouse {
 
   static void scrollMouse({
     required int distance,
-    Axis axis = Axis.horizontal,
+    ScrollAxis axis = ScrollAxis.horizontal,
   }) => scrollMouseBase(distance: distance, axis: axis.index);
 }

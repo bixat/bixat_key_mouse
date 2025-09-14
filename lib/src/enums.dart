@@ -14,10 +14,7 @@ enum Direction { press, release, click }
 
 enum Coordinate { absolute, relative }
 
-// enum Axis {
-//   horizontal,
-//   vertical,
-// }
+enum ScrollAxis { horizontal, vertical }
 
 enum KeyCode {
   ansiA(0x00),
