@@ -1,4 +1,6 @@
-use enigo::{Enigo, Key, Keyboard, Mouse, Settings};
+use std::time::Duration;
+
+use enigo::{Enigo, Keyboard, Mouse, Settings};
 
 use crate::helpers::{
     get_axis_by_index, get_coordinate_by_index, get_direction_by_index, get_mouse_button_by_index,
@@ -30,6 +32,23 @@ pub fn simulate_key_base(key: u16, direction: i32) {
     let mut enigo = Enigo::new(&Settings::default()).unwrap();
     let direction = get_direction_by_index(direction);
     enigo.raw(key, direction);
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn simulate_key_combination_base(keys: Vec<u16>, duration_ms: u64) {
+    let mut enigo = Enigo::new(&Settings::default()).unwrap();
+
+    // Press all keys
+    for key in keys.iter() {
+        enigo.raw(*key, enigo::Direction::Press);
+    }
+
+    std::thread::sleep(Duration::from_millis(duration_ms));
+
+    // Release all keys in reverse order
+    for key in keys.iter().rev() {
+        enigo.raw(*key, enigo::Direction::Release);
+    }
 }
 
 #[flutter_rust_bridge::frb(sync)]

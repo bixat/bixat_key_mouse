@@ -18,3 +18,8 @@
 
 * Adds 'scrollMouse' method to the plugin
 * Adds more enums
+* Support desktop platforms keyboard keys
+
+# 1.0.2
+
+* Fix `simulateKeyCombination` method for combo keys
