@@ -23,3 +23,4 @@
 # 1.0.2
 
 * Fix `simulateKeyCombination` method for combo keys
+* Renamed `Axis` to `ScrollAxis`
