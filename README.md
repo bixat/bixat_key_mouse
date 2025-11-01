@@ -1,15 +1,33 @@
 # 🖱️ Bixat Key Mouse
 
-Cross-platform (Linux, Windows, macOS & BSD) package to simulate keyboard and mouse events
+A powerful cross-platform Flutter plugin for simulating keyboard and mouse events on desktop platforms (Linux, Windows, macOS & BSD). Built with Rust for high performance and reliability.
 
-## Features
+## ✨ Features
 
-- 🖲️ Move mouse to absolute and relative positions
-- 🖱️ Press and release mouse buttons
-- 🖋️ Enter text programmatically
-- ⌨️ Simulate key presses and releases
-- 🗝️ Support for multiple key modifiers
-- 🖥️ Desktop compatibility
+- 🖲️ **Mouse Control**
+  - Move mouse to absolute and relative positions
+  - Press, release, and click mouse buttons (left, middle, right, back, forward)
+  - Scroll mouse horizontally and vertically
+
+- ⌨️ **Keyboard Simulation**
+  - Simulate individual key presses and releases
+  - Execute key combinations (e.g., Ctrl+C, Cmd+V)
+  - Cross-platform key mapping with `UniversalKey` enum
+  - Support for 100+ keys including:
+    - All letters (A-Z)
+    - Numbers (0-9) and numpad keys
+    - Function keys (F1-F20)
+    - Modifiers (Ctrl, Shift, Alt, Command/Win)
+    - Symbols and punctuation
+    - Navigation keys (arrows, home, end, page up/down)
+    - Media keys (volume, mute)
+
+- 📝 **Text Input**
+  - Enter text programmatically
+
+- 🖥️ **Desktop Compatibility**
+  - Seamless cross-platform support
+  - Platform-specific key code management
 
 ## Installation
 
@@ -24,167 +42,296 @@ Then run `flutter pub get` to install the package.
 ## Supported Platforms
 
 | Platform | Tested |
-|----------|--------|
-| Linux    | No    |
-| Windows  | No    |
+| -------- | ------ |
+| Linux    | No     |
+| Windows  | No     |
 | macOS    | Yes    |
 | BSD      | No     |
 
 
-## Getting Started
+## 🚀 Getting Started
 
-To use Bixat Key Mouse in your Dart code, import the package:
+### Initialization
 
-```dart
-import 'package:bixat_key_mouse/bixat_key_mouse.dart';
-```
-
-## Basic Usage
-
-Here's a simple example demonstrating various functionalities:
+Before using the plugin, initialize it in your app:
 
 ```dart
 import 'package:bixat_key_mouse/bixat_key_mouse.dart';
 
-void main() {
-  // Move mouse to absolute position 🖱️
-  BixatKeyMouse.moveMouse(x: x, y: y, coordinate: Coordinate.absolute);
-
-  // Move mouse relative to current position ➡️
-  BixatKeyMouse.moveMouse(x: x, y: y, coordinate: Coordinate.relative);
-
-  // Click left mouse button 🖱️
-  BixatKeyMouse.pressMouseButton(
-    button: MouseButton.left,
-    direction: Direction.click,
-  );
-
-  // Press left mouse button 🖱️
-  BixatKeyMouse.pressMouseButton(
-    button: MouseButton.left,
-    direction: Direction.press,
-  );
-
-  // Release left mouse button 🖱️
-  BixatKeyMouse.pressMouseButton(
-    button: MouseButton.left,
-    direction: Direction.release,
-  );
-
-  // Enter text 🖋️
-  final text = 'Hello, world!';
-  BixatKeyMouse.enterText(text);
-
-  // Simulate key press ⌨️
-  final key = UniversalKey.leftCommand;
-  BixatKeyMouse.simulateKeyPress(key);
-
-  // Release key ⌨️
-  final keyRelease = UniversalKey.capsLock;
-  BixatKeyMouse.simulateKeyPress(keyRelease, direction: Direction.release);
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await BixatKeyMouse.initialize();
+  runApp(MyApp());
 }
 ```
 
-## Available Functions
+## 📖 Usage Examples
 
 ### Mouse Control
 
-#### moveMouseAbs(int x, int y)
-Move the mouse cursor to an absolute position on the screen. 📍
-
 ```dart
-BixatKeyMouse.moveMouse(x: x, y: y, coordinate: Coordinate.absolute);
-```
+// Move mouse to absolute position (x: 100, y: 200)
+BixatKeyMouse.moveMouse(
+  x: 100,
+  y: 200,
+  coordinate: Coordinate.absolute,
+);
 
-#### moveMouseRel(int dx, int dy)
-Move the mouse cursor relative to its current position. ➡️
+// Move mouse relative to current position
+BixatKeyMouse.moveMouse(
+  x: 50,
+  y: -30,
+  coordinate: Coordinate.relative,
+);
 
-```dart
-BixatKeyMouse.moveMouse(x: x, y: y, coordinate: Coordinate.relative);
-```
+// Click left mouse button
+BixatKeyMouse.pressMouseButton(
+  button: MouseButton.left,
+  direction: Direction.click,
+);
 
-#### pressMouseButton(int button)
-Press the specified mouse button. 🖱️
+// Press and hold right mouse button
+BixatKeyMouse.pressMouseButton(
+  button: MouseButton.right,
+  direction: Direction.press,
+);
 
-```dart
-BixatKeyMouse.pressMouseButton(MouseButton.left); // Left mouse button
-BixatKeyMouse.pressMouseButton(MouseButton.middle); // Middle mouse button
-BixatKeyMouse.pressMouseButton(MouseButton.right); // Right mouse button
-```
-
-#### releaseMouseButton(int button)
-Release the specified mouse button. 🖱️
-
-```dart
+// Release mouse button
 BixatKeyMouse.pressMouseButton(
   button: MouseButton.left,
   direction: Direction.release,
+);
+
+// Scroll mouse vertically
+BixatKeyMouse.scrollMouse(
+  distance: 5,
+  axis: ScrollAxis.vertical,
+);
+
+// Scroll mouse horizontally
+BixatKeyMouse.scrollMouse(
+  distance: -3,
+  axis: ScrollAxis.horizontal,
+);
+```
+
+### Keyboard Simulation
+
+```dart
+// Press a single key
+BixatKeyMouse.simulateKey(
+  key: UniversalKey.a,
+  direction: Direction.press,
+);
+
+// Release a key
+BixatKeyMouse.simulateKey(
+  key: UniversalKey.a,
+  direction: Direction.release,
+);
+
+// Click a key (press and release)
+BixatKeyMouse.simulateKey(
+  key: UniversalKey.enter,
+  direction: Direction.click,
+);
+
+// Simulate key combination (e.g., Ctrl+C)
+BixatKeyMouse.simulateKeyCombination(
+  keys: [UniversalKey.leftControl, UniversalKey.c],
+  duration: Duration(milliseconds: 100),
+);
+
+// Simulate Cmd+V on macOS or Ctrl+V on Windows/Linux
+BixatKeyMouse.simulateKeyCombination(
+  keys: [UniversalKey.leftCommand, UniversalKey.v],
+  duration: Duration(milliseconds: 50),
 );
 ```
 
 ### Text Input
 
-#### enterText(String text)
-Enter text programmatically. 📜
-
 ```dart
-final text = 'Hello, world!';
-BixatKeyMouse.enterText(text);
+// Enter text programmatically
+BixatKeyMouse.enterText(text: 'Hello, World!');
+
+// Type a sentence
+BixatKeyMouse.enterText(text: 'This is automated text input.');
 ```
 
-### Keyboard Simulation
+## 📚 API Reference
 
-#### simulateKeyPress(UniversalKey modifier, {Direction direction = Direction.press})
-Simulate key press. ⌨️
+### Core Methods
+
+#### `initialize()`
+Initialize the Rust library. Must be called before using any other methods.
 
 ```dart
-final key = UniversalKey.leftCommand;
-BixatKeyMouse.simulateKeyPress(key);
+await BixatKeyMouse.initialize();
 ```
 
-#### simulateKeyPress(UniversalKey modifier, {Direction direction = Direction.release})
-Simulate key release. ⌨️
+#### `moveMouse({required int x, required int y, Coordinate coordinate})`
+Move the mouse cursor to a position.
+
+**Parameters:**
+- `x`: X coordinate
+- `y`: Y coordinate
+- `coordinate`: `Coordinate.absolute` or `Coordinate.relative` (default: `absolute`)
+
+#### `pressMouseButton({required MouseButton button, Direction direction})`
+Control mouse button actions.
+
+**Parameters:**
+- `button`: Mouse button (`left`, `middle`, `right`, `back`, `forward`, `scrollUp`, `scrollDown`, `scrollLeft`, `scrollRight`)
+- `direction`: Action type (`press`, `release`, `click`) (default: `press`)
+
+#### `scrollMouse({required int distance, ScrollAxis axis})`
+Scroll the mouse wheel.
+
+**Parameters:**
+- `distance`: Scroll distance (positive or negative)
+- `axis`: Scroll direction (`horizontal` or `vertical`) (default: `horizontal`)
+
+#### `simulateKey({required UniversalKey key, Direction direction})`
+Simulate a keyboard key action.
+
+**Parameters:**
+- `key`: The key to simulate (see `UniversalKey` enum)
+- `direction`: Action type (`press`, `release`, `click`) (default: `press`)
+
+#### `simulateKeyCombination({required List<UniversalKey> keys, Duration duration})`
+Simulate a key combination (e.g., Ctrl+C).
+
+**Parameters:**
+- `keys`: List of keys to press simultaneously
+- `duration`: How long to hold the keys (default: `100ms`)
+
+#### `enterText({required String text})`
+Type text programmatically.
+
+**Parameters:**
+- `text`: The text to type
+
+### Enums
+
+#### `MouseButton`
+- `left`, `middle`, `right`, `back`, `forward`
+- `scrollUp`, `scrollDown`, `scrollLeft`, `scrollRight`
+
+#### `Direction`
+- `press` - Press and hold
+- `release` - Release a pressed key/button
+- `click` - Press and immediately release
+
+#### `Coordinate`
+- `absolute` - Absolute screen position
+- `relative` - Relative to current position
+
+#### `ScrollAxis`
+- `horizontal` - Scroll left/right
+- `vertical` - Scroll up/down
+
+#### `UniversalKey`
+Cross-platform key identifiers. Includes:
+- Letters: `a` to `z`
+- Numbers: `num0` to `num9`
+- Numpad: `numPad0` to `numPad9`, `numPadAdd`, `numPadSubtract`, etc.
+- Function keys: `f1` to `f20`
+- Modifiers: `leftControl`, `leftShift`, `leftAlt`, `leftCommand`, `rightControl`, etc.
+- Symbols: `equal`, `minus`, `leftBracket`, `rightBracket`, `quote`, etc.
+- Navigation: `arrowLeft`, `arrowRight`, `arrowUp`, `arrowDown`, `home`, `end`, `pageUp`, `pageDown`
+- Special: `returnKey`, `tab`, `space`, `delete`, `escape`, `capsLock`, `function`
+- Media: `volumeUp`, `volumeDown`, `mute`
+
+## 🔧 Advanced Usage
+
+### Complex Automation Example
 
 ```dart
-final keyRelease = UniversalKey.capsLock;
-BixatKeyMouse.simulateKeyPress(keyRelease);
+// Automate a copy-paste operation
+await Future.delayed(Duration(seconds: 1));
+
+// Select all text (Ctrl+A / Cmd+A)
+BixatKeyMouse.simulateKeyCombination(
+  keys: [UniversalKey.leftCommand, UniversalKey.a],
+);
+
+await Future.delayed(Duration(milliseconds: 100));
+
+// Copy (Ctrl+C / Cmd+C)
+BixatKeyMouse.simulateKeyCombination(
+  keys: [UniversalKey.leftCommand, UniversalKey.c],
+);
+
+await Future.delayed(Duration(milliseconds: 100));
+
+// Move to another location
+BixatKeyMouse.moveMouse(x: 500, y: 300, coordinate: Coordinate.absolute);
+BixatKeyMouse.pressMouseButton(button: MouseButton.left, direction: Direction.click);
+
+// Paste (Ctrl+V / Cmd+V)
+BixatKeyMouse.simulateKeyCombination(
+  keys: [UniversalKey.leftCommand, UniversalKey.v],
+);
 ```
 
-## Advanced Usage
+### Platform-Specific Key Codes
 
-### Combining Functions
-
-You can combine mouse movements and key presses for complex interactions: 🔄
+The plugin automatically handles platform-specific key codes:
 
 ```dart
-BixatKeyMouse.moveMouseAbs(100, 100);
-BixatKeyMouse.pressMouseButton(1);
-// Perform actions...
-BixatKeyMouse.releaseMouseButton(1);
-```
+// This works on all platforms
+BixatKeyMouse.simulateKey(key: UniversalKey.leftCommand);
 
-### Handling Exceptions
+// On macOS: Uses Command key
+// On Windows/Linux: Uses Windows/Super key
 
-The package throws exceptions when certain operations fail. It's recommended to handle these exceptions: ⚠️
-
-```dart
-try {
-  BixatKeyMouse.moveMouseAbs(100, 100);
-} catch (e) {
-  print('Error moving mouse: $e');
+// Check if a key is supported on current platform
+if (UniversalKey.f13.isSupported) {
+  BixatKeyMouse.simulateKey(key: UniversalKey.f13);
 }
+
+// Get platform-specific key code
+int keyCode = UniversalKey.a.code;
 ```
 
-## Acknowledgements
+## 🏗️ Architecture
 
-The Bixat Key Mouse package utilizes the [Enigo](https://crates.io/crates/enigo) crate for simulating keyboard and mouse events across different platforms. Enigo is a Rust library that provides a cross-platform abstraction for controlling keyboards and mice, making it a valuable underlying tool for this package. 🎉
+This plugin is built using:
 
-In addition, the [Flutter Rust Bridge](https://github.com/fzyzcjy/flutter_rust_bridge) tool is used to facilitate seamless communication between Flutter and Rust, allowing efficient and safe function calls across language boundaries. This integration leverages Rust's performance and safety with Flutter's flexibility, further enhancing the package's capabilities. 🌉
+- **[Flutter Rust Bridge](https://github.com/fzyzcjy/flutter_rust_bridge)** - Seamless Dart-Rust interop
+- **[Enigo](https://crates.io/crates/enigo)** - Cross-platform input simulation in Rust
+- **[Cargokit](https://github.com/irondash/cargokit)** - Rust build integration for Flutter
 
-## Contributing
+The architecture leverages Rust's performance and safety while maintaining Flutter's ease of use.
 
-Contributions are welcome! Please feel free to submit a Pull Request. 🤝
+## 🤝 Contributing
 
-## License
+Contributions are welcome! Please feel free to:
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. 📜
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgements
+
+Special thanks to:
+- The [Enigo](https://crates.io/crates/enigo) team for the excellent cross-platform input simulation library
+- The [Flutter Rust Bridge](https://github.com/fzyzcjy/flutter_rust_bridge) project for making Dart-Rust integration seamless
+- All contributors and users of this package
+
+## 📞 Support
+
+- 🐛 [Report Issues](https://github.com/bixat/bixat_key_mouse/issues)
+- � [Discussions](https://github.com/bixat/bixat_key_mouse/discussions)
+- 🌐 [Website](https://bixat.dev)
+
+---
+
+Made with ❤️ by the Bixat team

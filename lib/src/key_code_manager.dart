@@ -57,19 +57,55 @@ class MacOSKeyCode implements PlatformKeyCode {
     UniversalKey.num9: KeyCode.ansi9,
     UniversalKey.num0: KeyCode.ansi0,
 
+    // Symbols
+    UniversalKey.equal: KeyCode.ansiEqual,
+    UniversalKey.minus: KeyCode.ansiMinus,
+    UniversalKey.rightBracket: KeyCode.ansiRightBracket,
+    UniversalKey.leftBracket: KeyCode.ansiLeftBracket,
+    UniversalKey.quote: KeyCode.ansiQuote,
+    UniversalKey.semicolon: KeyCode.ansiSemicolon,
+    UniversalKey.backslash: KeyCode.ansiBackslash,
+    UniversalKey.comma: KeyCode.ansiComma,
+    UniversalKey.slash: KeyCode.ansiSlash,
+    UniversalKey.period: KeyCode.ansiPeriod,
+    UniversalKey.grave: KeyCode.ansiGrave,
+
+    // Numpad
+    UniversalKey.numPadDecimal: KeyCode.ansiKeypadDecimal,
+    UniversalKey.numPadMultiply: KeyCode.ansiKeypadMultiply,
+    UniversalKey.numPadAdd: KeyCode.ansiKeypadPlus,
+    UniversalKey.numPadDivide: KeyCode.ansiKeypadDivide,
+    UniversalKey.numPadEnter: KeyCode.ansiKeypadEnter,
+    UniversalKey.numPadSubtract: KeyCode.ansiKeypadMinus,
+    UniversalKey.numPad0: KeyCode.ansiKeypad0,
+    UniversalKey.numPad1: KeyCode.ansiKeypad1,
+    UniversalKey.numPad2: KeyCode.ansiKeypad2,
+    UniversalKey.numPad3: KeyCode.ansiKeypad3,
+    UniversalKey.numPad4: KeyCode.ansiKeypad4,
+    UniversalKey.numPad5: KeyCode.ansiKeypad5,
+    UniversalKey.numPad6: KeyCode.ansiKeypad6,
+    UniversalKey.numPad7: KeyCode.ansiKeypad7,
+    UniversalKey.numPad8: KeyCode.ansiKeypad8,
+    UniversalKey.numPad9: KeyCode.ansiKeypad9,
+
     // Special keys
     UniversalKey.returnKey: KeyCode.returnKey,
     UniversalKey.tab: KeyCode.tabKey,
     UniversalKey.space: KeyCode.spaceKey,
     UniversalKey.delete: KeyCode.deleteKey,
     UniversalKey.escape: KeyCode.escapeKey,
-    UniversalKey.numPadEnter: KeyCode.ansiKeypadEnter,
-    UniversalKey.numPadDivide: KeyCode.ansiKeypadDivide,
-    UniversalKey.numPadMultiply: KeyCode.ansiKeypadMultiply,
-    UniversalKey.leftControl: KeyCode.rightControl,
-    UniversalKey.rightControl: KeyCode.rightControl,
-    UniversalKey.rightCommand: KeyCode.rightCommand,
+
+    // Modifiers
+    UniversalKey.leftControl: KeyCode.controlKey,
+    UniversalKey.leftShift: KeyCode.shiftKey,
+    UniversalKey.leftAlt: KeyCode.optionKey,
     UniversalKey.leftCommand: KeyCode.commandKey,
+    UniversalKey.rightControl: KeyCode.rightControl,
+    UniversalKey.rightShift: KeyCode.rightShift,
+    UniversalKey.rightAlt: KeyCode.rightOption,
+    UniversalKey.rightCommand: KeyCode.rightCommand,
+    UniversalKey.capsLock: KeyCode.capsLock,
+    UniversalKey.function: KeyCode.functionKey,
 
     // Function keys
     UniversalKey.f1: KeyCode.f1,
@@ -84,12 +120,33 @@ class MacOSKeyCode implements PlatformKeyCode {
     UniversalKey.f10: KeyCode.f10,
     UniversalKey.f11: KeyCode.f11,
     UniversalKey.f12: KeyCode.f12,
+    UniversalKey.f13: KeyCode.f13,
+    UniversalKey.f14: KeyCode.f14,
+    UniversalKey.f15: KeyCode.f15,
+    UniversalKey.f16: KeyCode.f16,
+    UniversalKey.f17: KeyCode.f17,
+    UniversalKey.f18: KeyCode.f18,
+    UniversalKey.f19: KeyCode.f19,
+    UniversalKey.f20: KeyCode.f20,
 
     // Arrow keys
     UniversalKey.arrowLeft: KeyCode.leftArrow,
     UniversalKey.arrowRight: KeyCode.rightArrow,
     UniversalKey.arrowUp: KeyCode.upArrow,
     UniversalKey.arrowDown: KeyCode.downArrow,
+
+    // Navigation
+    UniversalKey.home: KeyCode.homeKey,
+    UniversalKey.end: KeyCode.endKey,
+    UniversalKey.pageUp: KeyCode.pageUp,
+    UniversalKey.pageDown: KeyCode.pageDown,
+    UniversalKey.help: KeyCode.helpKey,
+    UniversalKey.forwardDelete: KeyCode.forwardDelete,
+
+    // Media
+    UniversalKey.volumeUp: KeyCode.volumeUp,
+    UniversalKey.volumeDown: KeyCode.volumeDown,
+    UniversalKey.mute: KeyCode.muteKey,
   };
 
   static final Map<int, UniversalKey> _reverseMap = {
@@ -159,12 +216,54 @@ class WindowsKeyCode implements PlatformKeyCode {
     UniversalKey.num9: KeyCodeWindows.vk9,
     UniversalKey.num0: KeyCodeWindows.vk0,
 
+    // Symbols
+    UniversalKey.equal: KeyCodeWindows.vkEqual,
+    UniversalKey.minus: KeyCodeWindows.vkMinus,
+    UniversalKey.rightBracket: KeyCodeWindows.vkRightBracket,
+    UniversalKey.leftBracket: KeyCodeWindows.vkLeftBracket,
+    UniversalKey.quote: KeyCodeWindows.vkQuote,
+    UniversalKey.semicolon: KeyCodeWindows.vkSemicolon,
+    UniversalKey.backslash: KeyCodeWindows.vkBackslash,
+    UniversalKey.comma: KeyCodeWindows.vkComma,
+    UniversalKey.slash: KeyCodeWindows.vkSlash,
+    UniversalKey.period: KeyCodeWindows.vkPeriod,
+    UniversalKey.grave: KeyCodeWindows.vkGrave,
+
+    // Numpad
+    UniversalKey.numPadDecimal: KeyCodeWindows.vkNumPadDecimal,
+    UniversalKey.numPadMultiply: KeyCodeWindows.vkNumPadMultiply,
+    UniversalKey.numPadAdd: KeyCodeWindows.vkNumPadAdd,
+    UniversalKey.numPadDivide: KeyCodeWindows.vkNumPadDivide,
+    UniversalKey.numPadEnter: KeyCodeWindows.vkNumPadEnter,
+    UniversalKey.numPadSubtract: KeyCodeWindows.vkNumPadSubtract,
+    UniversalKey.numPad0: KeyCodeWindows.vkNumPad0,
+    UniversalKey.numPad1: KeyCodeWindows.vkNumPad1,
+    UniversalKey.numPad2: KeyCodeWindows.vkNumPad2,
+    UniversalKey.numPad3: KeyCodeWindows.vkNumPad3,
+    UniversalKey.numPad4: KeyCodeWindows.vkNumPad4,
+    UniversalKey.numPad5: KeyCodeWindows.vkNumPad5,
+    UniversalKey.numPad6: KeyCodeWindows.vkNumPad6,
+    UniversalKey.numPad7: KeyCodeWindows.vkNumPad7,
+    UniversalKey.numPad8: KeyCodeWindows.vkNumPad8,
+    UniversalKey.numPad9: KeyCodeWindows.vkNumPad9,
+
     // Special keys
     UniversalKey.returnKey: KeyCodeWindows.vkReturn,
     UniversalKey.tab: KeyCodeWindows.vkTab,
     UniversalKey.space: KeyCodeWindows.vkSpace,
     UniversalKey.delete: KeyCodeWindows.vkDelete,
     UniversalKey.escape: KeyCodeWindows.vkEscape,
+
+    // Modifiers
+    UniversalKey.leftControl: KeyCodeWindows.vkLeftControl,
+    UniversalKey.leftShift: KeyCodeWindows.vkLeftShift,
+    UniversalKey.leftAlt: KeyCodeWindows.vkLeftAlt,
+    UniversalKey.leftCommand: KeyCodeWindows.vkLeftWin,
+    UniversalKey.rightControl: KeyCodeWindows.vkRightControl,
+    UniversalKey.rightShift: KeyCodeWindows.vkRightShift,
+    UniversalKey.rightAlt: KeyCodeWindows.vkRightAlt,
+    UniversalKey.rightCommand: KeyCodeWindows.vkRightWin,
+    UniversalKey.function: KeyCodeWindows.vkFunction,
 
     // Function keys
     UniversalKey.f1: KeyCodeWindows.vkF1,
@@ -185,6 +284,17 @@ class WindowsKeyCode implements PlatformKeyCode {
     UniversalKey.arrowRight: KeyCodeWindows.vkArrowRight,
     UniversalKey.arrowUp: KeyCodeWindows.vkArrowUp,
     UniversalKey.arrowDown: KeyCodeWindows.vkArrowDown,
+
+    // Navigation
+    UniversalKey.home: KeyCodeWindows.vkHome,
+    UniversalKey.end: KeyCodeWindows.vkEnd,
+    UniversalKey.pageUp: KeyCodeWindows.vkPageUp,
+    UniversalKey.pageDown: KeyCodeWindows.vkPageDown,
+
+    // Media
+    UniversalKey.volumeUp: KeyCodeWindows.vkVolumeUp,
+    UniversalKey.volumeDown: KeyCodeWindows.vkVolumeDown,
+    UniversalKey.mute: KeyCodeWindows.vkMute,
   };
 
   static final Map<int, UniversalKey> _reverseMap = {
@@ -254,12 +364,54 @@ class LinuxKeyCode implements PlatformKeyCode {
     UniversalKey.num9: KeyCodeLinux.xk9,
     UniversalKey.num0: KeyCodeLinux.xk0,
 
+    // Symbols
+    UniversalKey.equal: KeyCodeLinux.xkEqual,
+    UniversalKey.minus: KeyCodeLinux.xkMinus,
+    UniversalKey.rightBracket: KeyCodeLinux.xkRightBracket,
+    UniversalKey.leftBracket: KeyCodeLinux.xkLeftBracket,
+    UniversalKey.quote: KeyCodeLinux.xkQuote,
+    UniversalKey.semicolon: KeyCodeLinux.xkSemicolon,
+    UniversalKey.backslash: KeyCodeLinux.xkBackslash,
+    UniversalKey.comma: KeyCodeLinux.xkComma,
+    UniversalKey.slash: KeyCodeLinux.xkSlash,
+    UniversalKey.period: KeyCodeLinux.xkPeriod,
+    UniversalKey.grave: KeyCodeLinux.xkGrave,
+
+    // Numpad
+    UniversalKey.numPadDecimal: KeyCodeLinux.xkNumPadDecimal,
+    UniversalKey.numPadMultiply: KeyCodeLinux.xkNumPadMultiply,
+    UniversalKey.numPadAdd: KeyCodeLinux.xkNumPadAdd,
+    UniversalKey.numPadDivide: KeyCodeLinux.xkNumPadDivide,
+    UniversalKey.numPadEnter: KeyCodeLinux.xkNumPadEnter,
+    UniversalKey.numPadSubtract: KeyCodeLinux.xkNumPadSubtract,
+    UniversalKey.numPad0: KeyCodeLinux.xkNumPad0,
+    UniversalKey.numPad1: KeyCodeLinux.xkNumPad1,
+    UniversalKey.numPad2: KeyCodeLinux.xkNumPad2,
+    UniversalKey.numPad3: KeyCodeLinux.xkNumPad3,
+    UniversalKey.numPad4: KeyCodeLinux.xkNumPad4,
+    UniversalKey.numPad5: KeyCodeLinux.xkNumPad5,
+    UniversalKey.numPad6: KeyCodeLinux.xkNumPad6,
+    UniversalKey.numPad7: KeyCodeLinux.xkNumPad7,
+    UniversalKey.numPad8: KeyCodeLinux.xkNumPad8,
+    UniversalKey.numPad9: KeyCodeLinux.xkNumPad9,
+
     // Special keys
     UniversalKey.returnKey: KeyCodeLinux.xkReturn,
     UniversalKey.tab: KeyCodeLinux.xkTab,
     UniversalKey.space: KeyCodeLinux.xkSpace,
     UniversalKey.delete: KeyCodeLinux.xkDelete,
     UniversalKey.escape: KeyCodeLinux.xkEscape,
+
+    // Modifiers
+    UniversalKey.leftControl: KeyCodeLinux.xkLeftControl,
+    UniversalKey.leftShift: KeyCodeLinux.xkLeftShift,
+    UniversalKey.leftAlt: KeyCodeLinux.xkLeftAlt,
+    UniversalKey.leftCommand: KeyCodeLinux.xkLeftWin,
+    UniversalKey.rightControl: KeyCodeLinux.xkRightControl,
+    UniversalKey.rightShift: KeyCodeLinux.xkRightShift,
+    UniversalKey.rightAlt: KeyCodeLinux.xkRightAlt,
+    UniversalKey.rightCommand: KeyCodeLinux.xkRightWin,
+    UniversalKey.function: KeyCodeLinux.xkFunction,
 
     // Function keys
     UniversalKey.f1: KeyCodeLinux.xkF1,
@@ -280,6 +432,17 @@ class LinuxKeyCode implements PlatformKeyCode {
     UniversalKey.arrowRight: KeyCodeLinux.xkArrowRight,
     UniversalKey.arrowUp: KeyCodeLinux.xkArrowUp,
     UniversalKey.arrowDown: KeyCodeLinux.xkArrowDown,
+
+    // Navigation
+    UniversalKey.home: KeyCodeLinux.xkHome,
+    UniversalKey.end: KeyCodeLinux.xkEnd,
+    UniversalKey.pageUp: KeyCodeLinux.xkPageUp,
+    UniversalKey.pageDown: KeyCodeLinux.xkPageDown,
+
+    // Media
+    UniversalKey.volumeUp: KeyCodeLinux.xkVolumeUp,
+    UniversalKey.volumeDown: KeyCodeLinux.xkVolumeDown,
+    UniversalKey.mute: KeyCodeLinux.xkMute,
   };
 
   static final Map<int, UniversalKey> _reverseMap = {
