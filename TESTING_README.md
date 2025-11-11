@@ -1,11 +1,5 @@
 # Testing Guide - Bixat Key Mouse
 
-## Video Demo
-
-
-
-> Watch the automated key testing in action
-
 ## Quick Start
 
 ### 1. Run the Example App
