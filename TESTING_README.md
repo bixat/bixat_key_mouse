@@ -82,7 +82,7 @@ Report an issue if you find keys that:
 
 ### How to Report
 
-1. **Open a GitHub Issue**: [Create New Issue](https://github.com/bixat_key_mouse/issues/new)
+1. **Open a GitHub Issue**: [Create New Issue](https://github.com/bixat/bixat_key_mouse/issues/new)
 
 2. **Use This Template**:
 
