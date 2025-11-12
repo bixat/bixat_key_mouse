@@ -263,6 +263,7 @@ class WindowsKeyCode implements PlatformKeyCode {
     UniversalKey.rightShift: KeyCodeWindows.vkRightShift,
     UniversalKey.rightAlt: KeyCodeWindows.vkRightAlt,
     UniversalKey.rightCommand: KeyCodeWindows.vkRightWin,
+    UniversalKey.capsLock: KeyCodeWindows.vkCapsLock,
     UniversalKey.function: KeyCodeWindows.vkFunction,
 
     // Function keys
@@ -278,6 +279,14 @@ class WindowsKeyCode implements PlatformKeyCode {
     UniversalKey.f10: KeyCodeWindows.vkF10,
     UniversalKey.f11: KeyCodeWindows.vkF11,
     UniversalKey.f12: KeyCodeWindows.vkF12,
+    UniversalKey.f13: KeyCodeWindows.vkF13,
+    UniversalKey.f14: KeyCodeWindows.vkF14,
+    UniversalKey.f15: KeyCodeWindows.vkF15,
+    UniversalKey.f16: KeyCodeWindows.vkF16,
+    UniversalKey.f17: KeyCodeWindows.vkF17,
+    UniversalKey.f18: KeyCodeWindows.vkF18,
+    UniversalKey.f19: KeyCodeWindows.vkF19,
+    UniversalKey.f20: KeyCodeWindows.vkF20,
 
     // Arrow keys
     UniversalKey.arrowLeft: KeyCodeWindows.vkArrowLeft,
@@ -290,6 +299,8 @@ class WindowsKeyCode implements PlatformKeyCode {
     UniversalKey.end: KeyCodeWindows.vkEnd,
     UniversalKey.pageUp: KeyCodeWindows.vkPageUp,
     UniversalKey.pageDown: KeyCodeWindows.vkPageDown,
+    UniversalKey.help: KeyCodeWindows.vkHelp,
+    UniversalKey.forwardDelete: KeyCodeWindows.vkForwardDelete,
 
     // Media
     UniversalKey.volumeUp: KeyCodeWindows.vkVolumeUp,
@@ -411,6 +422,7 @@ class LinuxKeyCode implements PlatformKeyCode {
     UniversalKey.rightShift: KeyCodeLinux.xkRightShift,
     UniversalKey.rightAlt: KeyCodeLinux.xkRightAlt,
     UniversalKey.rightCommand: KeyCodeLinux.xkRightWin,
+    UniversalKey.capsLock: KeyCodeLinux.xkCapsLock,
     UniversalKey.function: KeyCodeLinux.xkFunction,
 
     // Function keys
@@ -426,6 +438,14 @@ class LinuxKeyCode implements PlatformKeyCode {
     UniversalKey.f10: KeyCodeLinux.xkF10,
     UniversalKey.f11: KeyCodeLinux.xkF11,
     UniversalKey.f12: KeyCodeLinux.xkF12,
+    UniversalKey.f13: KeyCodeLinux.xkF13,
+    UniversalKey.f14: KeyCodeLinux.xkF14,
+    UniversalKey.f15: KeyCodeLinux.xkF15,
+    UniversalKey.f16: KeyCodeLinux.xkF16,
+    UniversalKey.f17: KeyCodeLinux.xkF17,
+    UniversalKey.f18: KeyCodeLinux.xkF18,
+    UniversalKey.f19: KeyCodeLinux.xkF19,
+    UniversalKey.f20: KeyCodeLinux.xkF20,
 
     // Arrow keys
     UniversalKey.arrowLeft: KeyCodeLinux.xkArrowLeft,
@@ -438,6 +458,8 @@ class LinuxKeyCode implements PlatformKeyCode {
     UniversalKey.end: KeyCodeLinux.xkEnd,
     UniversalKey.pageUp: KeyCodeLinux.xkPageUp,
     UniversalKey.pageDown: KeyCodeLinux.xkPageDown,
+    UniversalKey.help: KeyCodeLinux.xkHelp,
+    UniversalKey.forwardDelete: KeyCodeLinux.xkForwardDelete,
 
     // Media
     UniversalKey.volumeUp: KeyCodeLinux.xkVolumeUp,
@@ -530,47 +552,144 @@ class KeyCodeUtils {
   }
 
   /// Get key name for display purposes
+  /// Aligned with Flutter's LogicalKeyboardKey labels
   static String getKeyDisplayName(UniversalKey key) {
     switch (key) {
-      // Letters
+      // Letters (lowercase keys)
       case UniversalKey.a:
-        return 'A';
-      case UniversalKey.s:
-        return 'S';
+        return 'Key A';
+      case UniversalKey.b:
+        return 'Key B';
+      case UniversalKey.c:
+        return 'Key C';
       case UniversalKey.d:
-        return 'D';
-      // Add more as needed...
+        return 'Key D';
+      case UniversalKey.e:
+        return 'Key E';
+      case UniversalKey.f:
+        return 'Key F';
+      case UniversalKey.g:
+        return 'Key G';
+      case UniversalKey.h:
+        return 'Key H';
+      case UniversalKey.i:
+        return 'Key I';
+      case UniversalKey.j:
+        return 'Key J';
+      case UniversalKey.k:
+        return 'Key K';
+      case UniversalKey.l:
+        return 'Key L';
+      case UniversalKey.m:
+        return 'Key M';
+      case UniversalKey.n:
+        return 'Key N';
+      case UniversalKey.o:
+        return 'Key O';
+      case UniversalKey.p:
+        return 'Key P';
+      case UniversalKey.q:
+        return 'Key Q';
+      case UniversalKey.r:
+        return 'Key R';
+      case UniversalKey.s:
+        return 'Key S';
+      case UniversalKey.t:
+        return 'Key T';
+      case UniversalKey.u:
+        return 'Key U';
+      case UniversalKey.v:
+        return 'Key V';
+      case UniversalKey.w:
+        return 'Key W';
+      case UniversalKey.x:
+        return 'Key X';
+      case UniversalKey.y:
+        return 'Key Y';
+      case UniversalKey.z:
+        return 'Key Z';
 
       // Numbers
+      case UniversalKey.num0:
+        return 'Digit 0';
       case UniversalKey.num1:
-        return '1';
+        return 'Digit 1';
       case UniversalKey.num2:
-        return '2';
+        return 'Digit 2';
       case UniversalKey.num3:
-        return '3';
-      // Add more as needed...
+        return 'Digit 3';
+      case UniversalKey.num4:
+        return 'Digit 4';
+      case UniversalKey.num5:
+        return 'Digit 5';
+      case UniversalKey.num6:
+        return 'Digit 6';
+      case UniversalKey.num7:
+        return 'Digit 7';
+      case UniversalKey.num8:
+        return 'Digit 8';
+      case UniversalKey.num9:
+        return 'Digit 9';
+
+      // Symbols
+      case UniversalKey.space:
+        return 'Space';
+      case UniversalKey.quote:
+        return 'Quote Single';
+      case UniversalKey.comma:
+        return 'Comma';
+      case UniversalKey.minus:
+        return 'Minus';
+      case UniversalKey.period:
+        return 'Period';
+      case UniversalKey.slash:
+        return 'Slash';
+      case UniversalKey.semicolon:
+        return 'Semicolon';
+      case UniversalKey.equal:
+        return 'Equal';
+      case UniversalKey.leftBracket:
+        return 'Bracket Left';
+      case UniversalKey.backslash:
+        return 'Backslash';
+      case UniversalKey.rightBracket:
+        return 'Bracket Right';
+      case UniversalKey.grave:
+        return 'Backquote';
 
       // Special keys
       case UniversalKey.returnKey:
         return 'Enter';
       case UniversalKey.tab:
         return 'Tab';
-      case UniversalKey.space:
-        return 'Space';
       case UniversalKey.delete:
-        return 'Delete';
+        return 'Backspace';
       case UniversalKey.escape:
         return 'Escape';
+      case UniversalKey.forwardDelete:
+        return 'Delete';
 
-      // Arrow keys
-      case UniversalKey.arrowLeft:
-        return '←';
-      case UniversalKey.arrowRight:
-        return '→';
-      case UniversalKey.arrowUp:
-        return '↑';
-      case UniversalKey.arrowDown:
-        return '↓';
+      // Modifiers
+      case UniversalKey.leftControl:
+        return 'Control Left';
+      case UniversalKey.rightControl:
+        return 'Control Right';
+      case UniversalKey.leftShift:
+        return 'Shift Left';
+      case UniversalKey.rightShift:
+        return 'Shift Right';
+      case UniversalKey.leftAlt:
+        return 'Alt Left';
+      case UniversalKey.rightAlt:
+        return 'Alt Right';
+      case UniversalKey.leftCommand:
+        return Platform.isMacOS ? 'Meta Left' : 'Meta Left';
+      case UniversalKey.rightCommand:
+        return Platform.isMacOS ? 'Meta Right' : 'Meta Right';
+      case UniversalKey.capsLock:
+        return 'Caps Lock';
+      case UniversalKey.function:
+        return 'Fn';
 
       // Function keys
       case UniversalKey.f1:
@@ -597,45 +716,86 @@ class KeyCodeUtils {
         return 'F11';
       case UniversalKey.f12:
         return 'F12';
+      case UniversalKey.f13:
+        return 'F13';
+      case UniversalKey.f14:
+        return 'F14';
+      case UniversalKey.f15:
+        return 'F15';
+      case UniversalKey.f16:
+        return 'F16';
+      case UniversalKey.f17:
+        return 'F17';
+      case UniversalKey.f18:
+        return 'F18';
+      case UniversalKey.f19:
+        return 'F19';
+      case UniversalKey.f20:
+        return 'F20';
 
-      // Modifiers
-      case UniversalKey.leftControl:
-        return Platform.isMacOS ? '⌃' : 'Ctrl';
-      case UniversalKey.leftShift:
-        return Platform.isMacOS ? '⇧' : 'Shift';
-      case UniversalKey.leftAlt:
-        return Platform.isMacOS ? '⌥' : 'Alt';
-      case UniversalKey.leftCommand:
-        return Platform.isMacOS ? '⌘' : 'Win';
+      // Arrow keys
+      case UniversalKey.arrowDown:
+        return 'Arrow Down';
+      case UniversalKey.arrowLeft:
+        return 'Arrow Left';
+      case UniversalKey.arrowRight:
+        return 'Arrow Right';
+      case UniversalKey.arrowUp:
+        return 'Arrow Up';
 
-      default:
-        return key.name.toUpperCase();
+      // Navigation
+      case UniversalKey.end:
+        return 'End';
+      case UniversalKey.home:
+        return 'Home';
+      case UniversalKey.pageDown:
+        return 'Page Down';
+      case UniversalKey.pageUp:
+        return 'Page Up';
+      case UniversalKey.help:
+        return 'Help';
+
+      // Numpad
+      case UniversalKey.numPadEnter:
+        return 'Numpad Enter';
+      case UniversalKey.numPadMultiply:
+        return 'Numpad Multiply';
+      case UniversalKey.numPadAdd:
+        return 'Numpad Add';
+      case UniversalKey.numPadSubtract:
+        return 'Numpad Subtract';
+      case UniversalKey.numPadDecimal:
+        return 'Numpad Decimal';
+      case UniversalKey.numPadDivide:
+        return 'Numpad Divide';
+      case UniversalKey.numPad0:
+        return 'Numpad 0';
+      case UniversalKey.numPad1:
+        return 'Numpad 1';
+      case UniversalKey.numPad2:
+        return 'Numpad 2';
+      case UniversalKey.numPad3:
+        return 'Numpad 3';
+      case UniversalKey.numPad4:
+        return 'Numpad 4';
+      case UniversalKey.numPad5:
+        return 'Numpad 5';
+      case UniversalKey.numPad6:
+        return 'Numpad 6';
+      case UniversalKey.numPad7:
+        return 'Numpad 7';
+      case UniversalKey.numPad8:
+        return 'Numpad 8';
+      case UniversalKey.numPad9:
+        return 'Numpad 9';
+
+      // Media
+      case UniversalKey.volumeDown:
+        return 'Audio Volume Down';
+      case UniversalKey.volumeUp:
+        return 'Audio Volume Up';
+      case UniversalKey.mute:
+        return 'Audio Volume Mute';
     }
   }
 }
-
-// // Usage example:
-// void exampleUsage() {
-//   // Get platform-specific key code
-//   final aKeyCode = UniversalKey.a.code;
-//   print('A key code on this platform: 0x${aKeyCode.toRadixString(16)}');
-
-//   // Check if a key is supported
-//   if (UniversalKey.f13.isSupported) {
-//     print('F13 key is supported on this platform');
-//   }
-
-//   // Convert platform code back to universal key
-//   final universalKey = KeyCodeUtils.fromPlatformCode(aKeyCode);
-//   print('Universal key: $universalKey');
-
-//   // Get display name
-//   final displayName = KeyCodeUtils.getKeyDisplayName(UniversalKey.leftCommand);
-//   print('Command key display name: $displayName');
-
-//   // Check key combination support
-//   final combination = [UniversalKey.leftControl, UniversalKey.c];
-//   if (KeyCodeUtils.isKeyCombinationSupported(combination)) {
-//     print('Ctrl+C is supported on this platform');
-//   }
-// }

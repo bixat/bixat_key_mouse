@@ -234,6 +234,17 @@ enum KeyCodeWindows {
   vkF10(0x79),
   vkF11(0x7A),
   vkF12(0x7B),
+  vkF13(0x7C),
+  vkF14(0x7D),
+  vkF15(0x7E),
+  vkF16(0x7F),
+  vkF17(0x80),
+  vkF18(0x81),
+  vkF19(0x82),
+  vkF20(0x83),
+  vkCapsLock(0x14),
+  vkForwardDelete(0x2E), // Same as Delete on Windows
+  vkHelp(0x2F),
   vkHome(0x24),
   vkPageUp(0x21),
   vkEnd(0x23),
@@ -340,6 +351,17 @@ enum KeyCodeLinux {
   xkF10(0xFFC7),
   xkF11(0xFFC8),
   xkF12(0xFFC9),
+  xkF13(0xFFCA),
+  xkF14(0xFFCB),
+  xkF15(0xFFCC),
+  xkF16(0xFFCD),
+  xkF17(0xFFCE),
+  xkF18(0xFFCF),
+  xkF19(0xFFD0),
+  xkF20(0xFFD1),
+  xkCapsLock(0xFFE5),
+  xkForwardDelete(0xFFFF), // Same as Delete on Linux
+  xkHelp(0xFF6A),
   xkHome(0xFF50),
   xkPageUp(0xFF55),
   xkEnd(0xFF57),
@@ -431,7 +453,6 @@ enum UniversalKey {
   tab,
   space,
   delete,
-  escape,
 
   // Modifiers
   leftControl,
@@ -487,4 +508,5 @@ enum UniversalKey {
 
   // Other
   forwardDelete,
+  escape,
 }
