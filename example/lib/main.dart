@@ -1,6 +1,26 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:bixat_key_mouse/bixat_key_mouse.dart';
+
+/// Key test result model
+class KeyTestResult {
+  final UniversalKey key;
+  final String expectedLabel;
+  final String? detectedLabel;
+  final bool passed;
+  final DateTime timestamp;
+
+  KeyTestResult({
+    required this.key,
+    required this.expectedLabel,
+    this.detectedLabel,
+    required this.passed,
+    required this.timestamp,
+  });
+
+  bool get isPending => detectedLabel == null && !passed;
+}
 
 /// Bixat Key Mouse Demo Application
 ///
@@ -62,10 +82,20 @@ class _BixatKeyMouseDemoState extends State<BixatKeyMouseDemo>
   Direction _selectedDirection = Direction.click;
   ScrollAxis _selectedScrollAxis = ScrollAxis.vertical;
 
+  String _lastKeyLabel = 'Waiting for key press...';
+  final FocusNode _keyboardFocusNode = FocusNode();
+
+  // Key testing state
+  final Map<UniversalKey, KeyTestResult> _keyTestResults = {};
+  bool _isTestingKeys = false;
+  int _currentTestIndex = 0;
+  List<UniversalKey> _keysToTest = [];
+  final Set<String> _detectedKeyLabels = {};
+
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 5, vsync: this);
+    _tabController = TabController(length: 6, vsync: this);
   }
 
   @override
@@ -75,6 +105,7 @@ class _BixatKeyMouseDemoState extends State<BixatKeyMouseDemo>
     _yController.dispose();
     _textController.dispose();
     _scrollController.dispose();
+    _keyboardFocusNode.dispose();
     super.dispose();
   }
 
@@ -85,7 +116,22 @@ class _BixatKeyMouseDemoState extends State<BixatKeyMouseDemo>
     });
   }
 
-  // ==================== Mouse Functions ====================
+  void _handleKeyEvent(KeyEvent event) {
+    if (event is KeyDownEvent) {
+      setState(() {
+        final keyLabel = event.logicalKey.debugName;
+        _lastKeyLabel = 'Detected key: $keyLabel';
+        _updateStatus(
+          _lastKeyLabel,
+          isError: _getKeyDisplayName(_selectedKey) != keyLabel,
+        );
+      });
+    }
+  }
+
+  String _getKeyDisplayName(UniversalKey key) {
+    return KeyCodeUtils.getKeyDisplayName(key);
+  }
 
   void _moveMouseAbsolute() {
     try {
@@ -141,7 +187,6 @@ class _BixatKeyMouseDemoState extends State<BixatKeyMouseDemo>
 
   void _simulateKey() {
     BixatKeyMouse.simulateKey(key: _selectedKey, direction: _selectedDirection);
-    _updateStatus('Key ${_selectedKey.name} ${_selectedDirection.name}');
   }
 
   void _typeText() {
@@ -208,6 +253,7 @@ class _BixatKeyMouseDemoState extends State<BixatKeyMouseDemo>
             Tab(icon: Icon(Icons.keyboard), text: 'Keyboard'),
             Tab(icon: Icon(Icons.text_fields), text: 'Text Input'),
             Tab(icon: Icon(Icons.auto_awesome), text: 'Automation'),
+            Tab(icon: Icon(Icons.bug_report), text: 'Key Testing'),
           ],
         ),
       ),
@@ -249,6 +295,7 @@ class _BixatKeyMouseDemoState extends State<BixatKeyMouseDemo>
                 _buildKeyboardTab(),
                 _buildTextInputTab(),
                 _buildAutomationTab(),
+                _buildKeyTestingTab(),
               ],
             ),
           ),
@@ -518,115 +565,118 @@ class _BixatKeyMouseDemoState extends State<BixatKeyMouseDemo>
   }
 
   Widget _buildKeyboardTab() {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const Text(
-            '⌨️ Keyboard Simulation',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          const Text(
-            'Simulate individual key presses, releases, and clicks.',
-            style: TextStyle(color: Colors.grey),
-          ),
-          const SizedBox(height: 24),
-          DropdownButtonFormField<UniversalKey>(
-            initialValue: _selectedKey,
-            decoration: const InputDecoration(
-              labelText: 'Select Key',
-              border: OutlineInputBorder(),
-              prefixIcon: Icon(Icons.keyboard),
+    return KeyboardListener(
+      focusNode: _keyboardFocusNode..requestFocus(),
+      onKeyEvent: _handleKeyEvent,
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Text(
+              '⌨️ Keyboard Simulation',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            items: _getCommonKeys().map((key) {
-              return DropdownMenuItem(
-                value: key,
-                child: Text(key.name.toUpperCase()),
-              );
-            }).toList(),
-            onChanged: (value) {
-              setState(() {
-                _selectedKey = value!;
-              });
-            },
-          ),
-          const SizedBox(height: 16),
-          DropdownButtonFormField<Direction>(
-            initialValue: _selectedDirection,
-            decoration: const InputDecoration(
-              labelText: 'Action Type',
-              border: OutlineInputBorder(),
-              prefixIcon: Icon(Icons.touch_app),
+            const SizedBox(height: 8),
+            const Text(
+              'Simulate individual key presses, releases, and clicks.',
+              style: TextStyle(color: Colors.grey),
             ),
-            items: Direction.values.map((direction) {
-              return DropdownMenuItem(
-                value: direction,
-                child: Text(direction.name.toUpperCase()),
-              );
-            }).toList(),
-            onChanged: (value) {
-              setState(() {
-                _selectedDirection = value!;
-              });
-            },
-          ),
-          const SizedBox(height: 16),
-          ElevatedButton.icon(
-            onPressed: _simulateKey,
-            icon: const Icon(Icons.keyboard_alt),
-            label: Text(
-              'Simulate ${_selectedKey.name} ${_selectedDirection.name}',
-            ),
-            style: ElevatedButton.styleFrom(padding: const EdgeInsets.all(16)),
-          ),
-          const SizedBox(height: 24),
-          const Divider(),
-          const SizedBox(height: 16),
-          const Text(
-            'Quick Key Actions',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 12),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              _buildQuickKeyButton('Enter', UniversalKey.returnKey),
-              _buildQuickKeyButton('Space', UniversalKey.space),
-              _buildQuickKeyButton('Tab', UniversalKey.tab),
-              _buildQuickKeyButton('Escape', UniversalKey.escape),
-              _buildQuickKeyButton('Delete', UniversalKey.delete),
-              _buildQuickKeyButton('↑', UniversalKey.arrowUp),
-              _buildQuickKeyButton('↓', UniversalKey.arrowDown),
-              _buildQuickKeyButton('←', UniversalKey.arrowLeft),
-              _buildQuickKeyButton('→', UniversalKey.arrowRight),
-            ],
-          ),
-          const SizedBox(height: 24),
-          const Divider(),
-          const SizedBox(height: 16),
-          const Text(
-            'Modifier Keys',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 12),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              _buildQuickKeyButton('Ctrl', UniversalKey.leftControl),
-              _buildQuickKeyButton('Shift', UniversalKey.leftShift),
-              _buildQuickKeyButton('Alt', UniversalKey.leftAlt),
-              _buildQuickKeyButton(
-                Platform.isMacOS ? 'Cmd' : 'Win',
-                UniversalKey.leftCommand,
+            const SizedBox(height: 24),
+            DropdownButtonFormField<UniversalKey>(
+              initialValue: _selectedKey,
+              decoration: const InputDecoration(
+                labelText: 'Select Key',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.keyboard),
               ),
-              _buildQuickKeyButton('Caps Lock', UniversalKey.capsLock),
-            ],
-          ),
-        ],
+              items: _getCommonKeys().map((key) {
+                return DropdownMenuItem(value: key, child: Text(key.name));
+              }).toList(),
+              onChanged: (value) {
+                setState(() {
+                  _selectedKey = value!;
+                });
+              },
+            ),
+            const SizedBox(height: 16),
+            DropdownButtonFormField<Direction>(
+              initialValue: _selectedDirection,
+              decoration: const InputDecoration(
+                labelText: 'Action Type',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.touch_app),
+              ),
+              items: Direction.values.map((direction) {
+                return DropdownMenuItem(
+                  value: direction,
+                  child: Text(direction.name.toUpperCase()),
+                );
+              }).toList(),
+              onChanged: (value) {
+                setState(() {
+                  _selectedDirection = value!;
+                });
+              },
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton.icon(
+              onPressed: _simulateKey,
+              icon: const Icon(Icons.keyboard_alt),
+              label: Text(
+                'Simulate ${_selectedKey.name} ${_selectedDirection.name}',
+              ),
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.all(16),
+              ),
+            ),
+            const SizedBox(height: 24),
+            const Divider(),
+            const SizedBox(height: 16),
+            const Text(
+              'Quick Key Actions',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 12),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                _buildQuickKeyButton('Enter', UniversalKey.returnKey),
+                _buildQuickKeyButton('Space', UniversalKey.space),
+                _buildQuickKeyButton('Tab', UniversalKey.tab),
+                _buildQuickKeyButton('Escape', UniversalKey.escape),
+                _buildQuickKeyButton('Delete', UniversalKey.delete),
+                _buildQuickKeyButton('↑', UniversalKey.arrowUp),
+                _buildQuickKeyButton('↓', UniversalKey.arrowDown),
+                _buildQuickKeyButton('←', UniversalKey.arrowLeft),
+                _buildQuickKeyButton('→', UniversalKey.arrowRight),
+              ],
+            ),
+            const SizedBox(height: 24),
+            const Divider(),
+            const SizedBox(height: 16),
+            const Text(
+              'Modifier Keys',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 12),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                _buildQuickKeyButton('Ctrl', UniversalKey.leftControl),
+                _buildQuickKeyButton('Shift', UniversalKey.leftShift),
+                _buildQuickKeyButton('Alt', UniversalKey.leftAlt),
+                _buildQuickKeyButton(
+                  Platform.isMacOS ? 'Cmd' : 'Win',
+                  UniversalKey.leftCommand,
+                ),
+                _buildQuickKeyButton('Caps Lock', UniversalKey.capsLock),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -635,32 +685,13 @@ class _BixatKeyMouseDemoState extends State<BixatKeyMouseDemo>
     return ElevatedButton(
       onPressed: () {
         BixatKeyMouse.simulateKey(key: key, direction: Direction.click);
-        _updateStatus('$label key clicked');
       },
       child: Text(label),
     );
   }
 
   List<UniversalKey> _getCommonKeys() {
-    return [
-      // Letters
-      UniversalKey.a, UniversalKey.b, UniversalKey.c, UniversalKey.d,
-      UniversalKey.e, UniversalKey.f, UniversalKey.g, UniversalKey.h,
-      // Numbers
-      UniversalKey.num0, UniversalKey.num1, UniversalKey.num2,
-      UniversalKey.num3, UniversalKey.num4, UniversalKey.num5,
-      // Special
-      UniversalKey.returnKey, UniversalKey.space, UniversalKey.tab,
-      UniversalKey.escape, UniversalKey.delete,
-      // Arrows
-      UniversalKey.arrowUp, UniversalKey.arrowDown,
-      UniversalKey.arrowLeft, UniversalKey.arrowRight,
-      // Modifiers
-      UniversalKey.leftControl, UniversalKey.leftShift,
-      UniversalKey.leftAlt, UniversalKey.leftCommand,
-      // Function keys
-      UniversalKey.f1, UniversalKey.f2, UniversalKey.f3, UniversalKey.f4,
-    ];
+    return UniversalKey.values;
   }
 
   Widget _buildTextInputTab() {
@@ -937,5 +968,522 @@ class _BixatKeyMouseDemoState extends State<BixatKeyMouseDemo>
         ],
       ),
     );
+  }
+
+  // ==================== Key Testing Tab ====================
+
+  Widget _buildKeyTestingTab() {
+    return KeyboardListener(
+      focusNode: _keyboardFocusNode,
+      onKeyEvent: (event) {
+        if (event is KeyDownEvent && _isTestingKeys) {
+          // Use debugName instead of keyLabel for proper key identification
+          final keyLabel =
+              event.logicalKey.debugName ?? event.logicalKey.keyLabel;
+          _detectedKeyLabels.add(keyLabel);
+
+          if (_currentTestIndex < _keysToTest.length) {
+            final currentKey = _keysToTest[_currentTestIndex];
+            final expectedLabel = KeyCodeUtils.getKeyDisplayName(currentKey);
+            setState(() {
+              _keyTestResults[currentKey] = KeyTestResult(
+                key: currentKey,
+                expectedLabel: expectedLabel,
+                detectedLabel: keyLabel,
+                passed: keyLabel == expectedLabel,
+                timestamp: DateTime.now(),
+              );
+            });
+          }
+        }
+      },
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Text(
+              '🧪 Automated Key Testing',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'Test all keys to detect which ones are missing or failing.',
+              style: TextStyle(color: Colors.grey),
+            ),
+            const SizedBox(height: 12),
+            Card(
+              color: Colors.blue.shade50,
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Row(
+                  children: [
+                    Icon(Icons.info_outline, color: Colors.blue.shade700),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        'Note: Modifier keys (Ctrl, Shift, Alt, Cmd), function keys (F1-F20), '
+                        'arrow keys, and media keys may not be detected correctly when simulated '
+                        'programmatically. This is a limitation of keyboard event simulation, but '
+                        'these keys DO work correctly in real applications.',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.blue.shade900,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+
+            // Test Controls
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Text(
+                      'Test Controls',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            onPressed: _isTestingKeys ? null : _startKeyTesting,
+                            icon: const Icon(Icons.play_arrow),
+                            label: const Text('Start Testing All Keys'),
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.all(16),
+                              backgroundColor: Colors.green,
+                              foregroundColor: Colors.white,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            onPressed: _isTestingKeys ? _stopKeyTesting : null,
+                            icon: const Icon(Icons.stop),
+                            label: const Text('Stop Testing'),
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.all(16),
+                              backgroundColor: Colors.red,
+                              foregroundColor: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            onPressed: _clearTestResults,
+                            icon: const Icon(Icons.clear_all),
+                            label: const Text('Clear Results'),
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.all(16),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            onPressed: _keyTestResults.isEmpty
+                                ? null
+                                : _exportTestResults,
+                            icon: const Icon(Icons.download),
+                            label: const Text('Export Results'),
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.all(16),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            // Test Progress
+            if (_isTestingKeys) ...[
+              Card(
+                color: Colors.blue.shade50,
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(Icons.info, color: Colors.blue),
+                          const SizedBox(width: 8),
+                          Text(
+                            'Testing in progress... ($_currentTestIndex/${_keysToTest.length})',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      LinearProgressIndicator(
+                        value: _keysToTest.isEmpty
+                            ? 0
+                            : _currentTestIndex / _keysToTest.length,
+                      ),
+                      const SizedBox(height: 8),
+                      if (_currentTestIndex < _keysToTest.length)
+                        Text(
+                          'Current key: ${_keysToTest[_currentTestIndex].name}',
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+            ],
+
+            // Test Summary
+            if (_keyTestResults.isNotEmpty) ...[
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Test Summary',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      _buildSummaryRow(
+                        'Total Keys Tested',
+                        '${_keyTestResults.length}',
+                        Icons.keyboard,
+                        Colors.blue,
+                      ),
+                      const Divider(),
+                      _buildSummaryRow(
+                        'Passed',
+                        '${_keyTestResults.values.where((r) => r.passed).length}',
+                        Icons.check_circle,
+                        Colors.green,
+                      ),
+                      const Divider(),
+                      _buildSummaryRow(
+                        'Failed',
+                        '${_keyTestResults.values.where((r) => !r.passed && !r.isPending).length}',
+                        Icons.error,
+                        Colors.red,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              // Detailed Results
+              const Text(
+                'Detailed Results',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 12),
+
+              // Failed Keys
+              if (_keyTestResults.values.any(
+                (r) => !r.passed && !r.isPending,
+              )) ...[
+                Card(
+                  color: Colors.red.shade50,
+                  child: ExpansionTile(
+                    title: Text(
+                      'Failed Keys (${_keyTestResults.values.where((r) => !r.passed && !r.isPending).length})',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red,
+                      ),
+                    ),
+                    leading: const Icon(Icons.error, color: Colors.red),
+                    children: [
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: _keyTestResults.values
+                            .where((r) => !r.passed && !r.isPending)
+                            .length,
+                        itemBuilder: (context, index) {
+                          final result = _keyTestResults.values
+                              .where((r) => !r.passed && !r.isPending)
+                              .toList()[index];
+                          return _buildResultTile(result);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 12),
+              ],
+
+              // Passed Keys
+              if (_keyTestResults.values.any((r) => r.passed)) ...[
+                Card(
+                  color: Colors.green.shade50,
+                  child: ExpansionTile(
+                    title: Text(
+                      'Passed Keys (${_keyTestResults.values.where((r) => r.passed).length})',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green,
+                      ),
+                    ),
+                    leading: const Icon(
+                      Icons.check_circle,
+                      color: Colors.green,
+                    ),
+                    initiallyExpanded: false,
+                    children: [
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: _keyTestResults.values
+                            .where((r) => r.passed)
+                            .length,
+                        itemBuilder: (context, index) {
+                          final result = _keyTestResults.values
+                              .where((r) => r.passed)
+                              .toList()[index];
+                          return _buildResultTile(result);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSummaryRow(
+    String label,
+    String value,
+    IconData icon,
+    Color color,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        children: [
+          Icon(icon, color: color, size: 20),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              label,
+              style: const TextStyle(fontWeight: FontWeight.w500),
+            ),
+          ),
+          Text(
+            value,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              color: color,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildResultTile(KeyTestResult result) {
+    final color = result.passed ? Colors.green : Colors.red;
+    final icon = result.passed ? Icons.check_circle : Icons.error;
+
+    return ListTile(
+      dense: true,
+      leading: Icon(icon, color: color, size: 20),
+      title: Text(
+        result.key.name,
+        style: const TextStyle(fontFamily: 'monospace'),
+      ),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Expected: ${result.expectedLabel}'),
+          Text(
+            'Detected: ${result.detectedLabel ?? "Not detected"}',
+            style: TextStyle(
+              color: result.passed ? Colors.green : Colors.red,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+      trailing: result.passed
+          ? const Icon(Icons.check, color: Colors.green)
+          : const Icon(Icons.close, color: Colors.red),
+    );
+  }
+
+  void _startKeyTesting() async {
+    setState(() {
+      _isTestingKeys = true;
+      _currentTestIndex = 0;
+      _keysToTest = UniversalKey.values.toList();
+      _keyTestResults.clear();
+      _detectedKeyLabels.clear();
+    });
+
+    _keyboardFocusNode.requestFocus();
+
+    // Test each key
+    for (int i = 0; i < _keysToTest.length; i++) {
+      if (!_isTestingKeys) break;
+
+      setState(() {
+        _currentTestIndex = i;
+      });
+
+      final key = _keysToTest[i];
+      final expectedLabel = KeyCodeUtils.getKeyDisplayName(key);
+
+      // Clear detected labels before testing
+      _detectedKeyLabels.clear();
+
+      // Simulate the key press
+      try {
+        BixatKeyMouse.simulateKey(key: key, direction: Direction.click);
+        await Future.delayed(const Duration(milliseconds: 100));
+
+        // Check if the key was detected
+        if (!_keyTestResults.containsKey(key)) {
+          setState(() {
+            _keyTestResults[key] = KeyTestResult(
+              key: key,
+              expectedLabel: expectedLabel,
+              detectedLabel: _detectedKeyLabels.isEmpty
+                  ? null
+                  : _detectedKeyLabels.first,
+              passed: false,
+              timestamp: DateTime.now(),
+            );
+          });
+        }
+      } catch (e) {
+        setState(() {
+          _keyTestResults[key] = KeyTestResult(
+            key: key,
+            expectedLabel: expectedLabel,
+            detectedLabel: 'Error: $e',
+            passed: false,
+            timestamp: DateTime.now(),
+          );
+        });
+      }
+
+      await Future.delayed(const Duration(milliseconds: 50));
+    }
+
+    setState(() {
+      _isTestingKeys = false;
+    });
+
+    _updateStatus(
+      'Key testing completed! ${_keyTestResults.values.where((r) => r.passed).length}/${_keyTestResults.length} passed',
+    );
+  }
+
+  void _stopKeyTesting() {
+    setState(() {
+      _isTestingKeys = false;
+    });
+    _updateStatus('Key testing stopped');
+  }
+
+  void _clearTestResults() {
+    setState(() {
+      _keyTestResults.clear();
+      _currentTestIndex = 0;
+      _keysToTest.clear();
+      _detectedKeyLabels.clear();
+    });
+    _updateStatus('Test results cleared');
+  }
+
+  void _exportTestResults() {
+    final buffer = StringBuffer();
+    buffer.writeln('Bixat Key Mouse - Key Testing Results');
+    buffer.writeln('Generated: ${DateTime.now()}');
+    buffer.writeln('Platform: ${Platform.operatingSystem}');
+    buffer.writeln('=' * 80);
+    buffer.writeln();
+
+    final passed = _keyTestResults.values.where((r) => r.passed).length;
+    final failed = _keyTestResults.values
+        .where((r) => !r.passed && !r.isPending)
+        .length;
+
+    buffer.writeln('Summary:');
+    buffer.writeln('  Total Keys Tested: ${_keyTestResults.length}');
+    buffer.writeln('  Passed: $passed');
+    buffer.writeln('  Failed: $failed');
+    buffer.writeln(
+      '  Success Rate: ${(passed / _keyTestResults.length * 100).toStringAsFixed(2)}%',
+    );
+    buffer.writeln();
+    buffer.writeln('=' * 80);
+    buffer.writeln();
+
+    // Failed keys
+    if (failed > 0) {
+      buffer.writeln('FAILED KEYS ($failed):');
+      buffer.writeln('-' * 80);
+      for (final result in _keyTestResults.values.where(
+        (r) => !r.passed && !r.isPending,
+      )) {
+        buffer.writeln('Key: ${result.key.name}');
+        buffer.writeln('  Expected Label: ${result.expectedLabel}');
+        buffer.writeln(
+          '  Detected Label: ${result.detectedLabel ?? "Not detected"}',
+        );
+        buffer.writeln('  Timestamp: ${result.timestamp}');
+        buffer.writeln();
+      }
+      buffer.writeln();
+    }
+
+    // Passed keys
+    if (passed > 0) {
+      buffer.writeln('PASSED KEYS ($passed):');
+      buffer.writeln('-' * 80);
+      for (final result in _keyTestResults.values.where((r) => r.passed)) {
+        buffer.writeln('Key: ${result.key.name} - ${result.expectedLabel}');
+      }
+      buffer.writeln();
+    }
+
+    // Print to console
+    print(buffer.toString());
+
+    _updateStatus('Test results exported to console. Check the debug output.');
   }
 }
